@@ -1,7 +1,7 @@
-import {css} from "./scss/main.scss";
+//import {css} from "./scss/main.scss";
 import {SpyneApp, ViewStream, ChannelFetch, Channel} from 'spyne';
-import {ChannelThreejs} from './app/channels/channel-threejs';
-import {ThreejsView} from './app/components/threejs-view';
+import {ChannelThreejs} from './app/channel-threejs';
+import {ThreejsView} from './app/threejs-view';
 
 const spyneApp = new SpyneApp({debug:true})
 

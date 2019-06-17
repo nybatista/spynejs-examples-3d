@@ -1,6 +1,6 @@
 import {ViewStream} from 'spyne';
-import {ThreejsTrait} from '../traits/threejs-trait';
-import {AngleUtils} from '../../angle-utils';
+import {ThreejsTrait} from './threejs-trait';
+import {AngleUtils} from './angle-utils';
 
 export class ThreejsView extends ViewStream {
 
