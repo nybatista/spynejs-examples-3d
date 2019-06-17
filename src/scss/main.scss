@@ -1,0 +1,32 @@
+@import "globals/fluid-type.scss";
+@import "globals/globals.scss";
+@import "header.scss";
+@import "pages.scss";
+@import "profiles.scss";
+@import "profile-item.scss";
+
+body{
+  position: absolute;
+  top:0;
+  left:0;
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  background: $beigeMed;
+  font-family: 'Ubuntu', sans-serif;
+
+  h1{
+    position: relative;
+    color: $blue;
+    text-align: center;
+    margin: 2rem 0;
+    &.c404{
+      margin:15vh 0 0 0;
+      font-size:20rem;
+      opacity: .5;
+    }
+  }
+
+
+}

@@ -1,0 +1,80 @@
+
+.profiles-page {
+
+  .profile-item {
+    position:relative;
+
+
+    background: $slate;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    //padding: 4rem 7rem 7rem 7rem;
+    color: antiquewhite;
+
+
+    min-width: 60vw;
+    min-height: 65vh;
+
+    opacity:0;
+    transition: opacity .5s ease .75s;
+
+    &.reveal{
+      opacity:1;
+    }
+
+
+    header{
+      position:relative;
+      margin:4rem 0;
+    }
+
+
+    p,h2,h3,h4,h5{
+      position:relative;
+      margin:2px 0;
+      padding:0;
+    }
+
+
+
+    div.images {
+      position: relative;
+      display: flex;
+      flex-direction: column;;
+      align-items: center;
+      width: 180px;
+      //margin-left: 1rem;
+      margin: 1rem 4rem 0 4rem;
+
+
+
+      div.avatar {
+        position: relative;
+        width: 10rem;
+        height: 10rem;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        padding: 4px;
+
+        &#small-img.small {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 5rem;
+          height: 5rem;
+          align-self: flex-end;
+          background: $taupe;
+        }
+
+
+
+      }
+    }
+
+  }
+
+
+
+}
