@@ -4,7 +4,11 @@ export class AngleUtils  {
   constructor(){
     this.debouncer = AngleUtils.angleDebouncer();
     this.angleName = undefined;
-    this.prevNameIndex=-1;
+    this.prevIndex=-1;
+
+    console.log('ramda is ',this.debouncer);
+
+
   }
 
   getAngleName(n){
@@ -21,18 +25,18 @@ export class AngleUtils  {
 
   checkAngle(n){
 
-    //let sendEvent = this.debouncer(n);
-   // if (sendEvent === true) {
+    let sendEvent = this.debouncer(n);
+    if (sendEvent === true) {
       var angle = THREE.Math.radToDeg(n)
       var angleNum = 180+angle;// 360-Math.abs(angle);
       let {index,angleName} = this.getAngleName(angleNum)
-      let isNewNameIndex = angleName!==this.prevNameIndex;
-      this.prevNameIndex = angleName;
-      if (isNewNameIndex===true){
+      let isNewIndex = index!==this.prevIndex;
+      this.prevIndex = index;
+      if (isNewIndex===true){
         return {index,angleName};
       }
 
-  //  }
+    }
     return null;
 
   }
@@ -40,7 +44,7 @@ export class AngleUtils  {
   static angleDebouncer(){
     const debouncer = ()=>{
       let bounceNum = 0;
-      let maxBounceNum = 4;
+      let maxBounceNum = 10;
       let prev =  undefined;
       let current = 0;
 

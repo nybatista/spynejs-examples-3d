@@ -1,5 +1,4 @@
 import {SpyneTrait} from 'spyne';
-import {isNil, defaultTo, complement,compose,prop} from 'ramda';
 
 export class ThreejsTrait extends SpyneTrait {
 
@@ -9,32 +8,24 @@ export class ThreejsTrait extends SpyneTrait {
 
   }
 
-
-  threejs$OnLoad(){
-    const start3d = ()=>{
-      let threeTest = defaultTo({});
-      const isLoaded = prop('FBXLoader', threeTest(THREE)) !==undefined;
-      if (isLoaded===true){
-        this.threejs$Initialize();
-      } else {
-        window.setTimeout(start3d, 500);
-      }
-    }
-    window.setTimeout(start3d, 1000);
-
-  }
-
   threejs$Initialize(){
 
 
 
+    if ( WEBGL.isWebGLAvailable() === false ) {
+
+      document.body.appendChild( WEBGL.getWebGLErrorMessage() );
+
+    }
 
 
 
 
     var container, stats, controls;
-    var camera, scene, renderer, light, clock;
+    var camera, scene, renderer, light;
+
     var clock = new THREE.Clock();
+
     var mixer;
 
     var previousRad=-1000;
@@ -141,27 +132,23 @@ export class ThreejsTrait extends SpyneTrait {
 
     const animate=()=> {
 
-      if (this.props.animateScooter === true) {
-
-         requestAnimationFrame( animate );
-      } else {
-        this.onFrameUpdate(controls.getAzimuthalAngle());
-      }
+      requestAnimationFrame( animate );
 
       var delta = clock.getDelta();
 
       if ( mixer ) mixer.update( delta );
-    //  this.onFrameUpdate(controls.getAzimuthalAngle());
+      this.onFrameUpdate(controls.getAzimuthalAngle());
+      //getAngle();
+      //angleUtils.checkAngle( controls.getAzimuthalAngle());
       renderer.render( scene, camera );
 
-    };
+      //stats.update();
 
-    this.props.animateFn = animate;
-
+    }
     init();
     animate();
-    const delayer = ()=> animate();
-    window.setTimeout(delayer, 1000);
+
+
 
   }
 
