@@ -17,8 +17,20 @@
           //background-color: #000;
           //color: #fff;
               font-family: "Nunito", sans-serif;
-              font-size: 13px;
-              line-height: 24px;
+              font-size: 14px;
+              line-height: 120%;
+          }
+
+
+
+          h2{
+              font-size:1.5rem;
+          }
+
+          @media screen and (max-width: 600px) {
+              html {
+                  font-size:10px;
+              }
           }
 
           a {
@@ -42,31 +54,34 @@
 
           section{
               position:absolute;;
-              top:0;
-              left:0;
+              top:10px;
+              left:10px;
               display:flex;
               flex-direction: column;
               align-items: center;
               justify-content: center;
-              margin:1rem;
-              width: 30vw;
+              padding:10px 20px;
+              width: 35vw;
               min-width:200px;
-              height:20vh;
+              height:30vh;
               color:#fff;
           // background: orange;
+
 
           }
 
           article{
-              position:relative;
+              position:absolute;
               width:100%;
               height:100%;
               display:flex;
 
               flex-direction: column;;
-              justify-content: center;
               align-items: center;
+              background: #3A7263;
+/*
               background: rgba(0,0,0,.45);
+*/
 
           }
 
@@ -77,12 +92,38 @@
               font-weight:100;
           }
 
-          div.gear{
+          div.content{
+              position: relative;
+              width: 100%;
+              height: 100%;
+              padding-top: 10px;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+          }
+
+
+          header.icon{
               position:relative;
               width:50px;
               height:50px;
               opacity:.7;
-              background: url("//holdrr.com/spyne/icon-gear.png") no-repeat;
+          }
+
+          header.icon.front{
+              background: url("//holdrr.com/spyne/icons/front-scooter.png") no-repeat;
+              background-size:contain;
+          }
+          header.icon.left{
+              background: url("//holdrr.com/spyne/icons/left-scooter.png") no-repeat;
+              background-size:contain;
+          }
+          header.icon.right{
+              background: url("//holdrr.com/spyne/icons/right-scooter.png") no-repeat;
+              background-size:contain;
+          }
+          header.icon.back{
+              background: url("//holdrr.com/spyne/icons/back-scooter.png") no-repeat;
               background-size:contain;
           }
 
@@ -105,20 +146,19 @@
   <script src="//assetscontainer.com/threejs/r102/examples/js/controls/OrbitControls.js"></script>
 
   <script src="//assetscontainer.com/threejs/r102/examples/js/WebGL.js"></script>
-  <script class="todo-tmpl" type="template">
-      <div class="view" data-type='title-dbclick-item'  >
-          <input  data-type="completed-item" class="toggle" type="checkbox">
-          <label>{{title}}</label>
-          <button  data-type='destroy-item' class="destroy"></button>
-      </div>
-      <input data-type="title-item" class="edit" value="{{title}}">
 
-  </script>
 
   <script id="callout-item" type="template">
-          <div class="gear"></div>
-          <h2>{{title}}: <span>Details</span></h2>
+        <div class="content">
+            <header class="icon {{classStr}}"></header>
+          <h2>{{title}}</h2>
+            <ul>
+                {{#items}}
+                <li>{{.*}}</li>
+                {{/items}}
 
+            </ul>
+        </div>
 
 
   </script>

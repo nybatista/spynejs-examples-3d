@@ -18,11 +18,43 @@ export class CalloutView extends ViewStream {
     ];
   }
 
-  getCalloutData(str){
-    let title = String(str).toUpperCase();
-    let classStr = `details ${str}`;
 
-    return {title,classStr};
+  getTitle(str){
+    const titleHash = {
+      left: "LEFT PROFILE",
+      front: "FRONT VIEW",
+      right: "RIGHT PROFILE",
+      back: "CONTROLS VIEW"
+
+    };
+    return titleHash[str];
+
+  }
+
+  getListItems(str){
+    const itemsHash = {
+      left: ["Halley", "Euler", "d'Alembert", "Clairaut", "Lagrange"],
+      front: ["Category", "Anti-roll bar (sway bar)", "Axle", "Axle track", "Beam axle"],
+      right: ["Multifuel", "Gasoline engine", "Hesselman engine", "HCCI engine", "Hot bulb engine"],
+      back: ["ET8 150 (Eastern model)", "GT 125 (Granturismo 125)", "GT 200 (Granturismo 200)", "GTS 250ie", "PX 125"]
+
+    }
+
+    return itemsHash[str];
+  }
+
+
+  getCalloutData(str){
+
+
+
+
+
+    let title = this.getTitle(str);
+    let classStr = `details ${str}`;
+    let items = this.getListItems(str);
+
+    return {title,classStr,items};
 
   }
 
