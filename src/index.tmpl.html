@@ -11,135 +11,134 @@
 -->
       <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,700&display=swap" rel="stylesheet">
 
-      <style>
-          body {
-              margin: 0;
-              font-family: "Nunito", sans-serif;
-              font-size: 14px;
-              line-height: 120%;
-          }
+      <style>                   body {
+          margin: 0;
+          font-family: "Nunito", sans-serif;
+          font-size: 14px;
+          line-height: 120%;
+      }
 
+      ul{
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          grid-column-gap: 30px;
+          margin:0;
+          padding: 0 0 8px 0;
+      }
+
+      li{
+          margin: 0;
+          padding:0;
+          line-height:100%;
+      }
+
+
+
+      h2{
+          font-size:1.5rem;
+      }
+
+
+
+      button {
+          cursor: pointer;
+          text-transform: uppercase;
+      }
+
+      canvas {
+          display: block;
+      }
+
+
+      section{
+          position:absolute;;
+          top:10px;
+          left:20px;
+          display:flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 35vw;
+          min-width:200px;
+          height:30vh;
+          min-height:150px;
+          color:#fff;
+          pointer-events: none;
+
+
+      }
+
+      article{
+          position:absolute;
+          width:100%;
+          height:100%;
+          display:flex;
+          flex-direction: column;;
+          justify-content: center;
+          align-items: center;
+          padding: 0 ;
+          background: rgba(0,0,0,.45);
+
+
+      }
+
+      h2{
+          margin:8px 0;
+      }
+      span{
+          font-weight:100;
+      }
+
+      div.content{
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+      }
+
+
+      header.icon{
+          position:relative;
+          width:50px;
+          height:50px;
+          opacity:.7;
+      }
+
+      header.icon.front{
+          background: url("//holdrr.com/spyne/icons/front-scooter.png") no-repeat;
+          background-size:contain;
+          background-position: center;
+      }
+      header.icon.left{
+          background: url("//holdrr.com/spyne/icons/left-scooter.png") no-repeat;
+          background-size:contain;
+      }
+      header.icon.right{
+          background: url("//holdrr.com/spyne/icons/right-scooter.png") no-repeat;
+          background-size:contain;
+      }
+      header.icon.back{
+          background: url("//holdrr.com/spyne/icons/back-scooter.png") no-repeat;
+          background-size:contain;
+      }
+
+
+      @media screen and (max-width: 700px) {
+          html {
+              font-size:10px;
+          }
+          h2{
+              font-size:14px;
+              margin:4px 0;
+          }
           ul{
-              display: grid;
-              grid-template-columns: repeat(2, 1fr);
-              grid-column-gap: 30px;
-              margin:0;
-              padding: 0 0 8px 0;
+              font-size:8px;
           }
-
-          li{
-              margin: 0;
-              padding:0;
-              line-height:100%;
-          }
-
-
-
-          h2{
-              font-size:1.5rem;
-          }
-
-
-
-          button {
-              cursor: pointer;
-              text-transform: uppercase;
-          }
-
-          canvas {
-              display: block;
-          }
-
-
-          section{
-              position:absolute;;
-              top:10px;
-              left:20px;
-              display:flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              width: 35vw;
-              min-width:200px;
-              height:30vh;
-              min-height:150px;
-              color:#fff;
-              pointer-events: none;
-
-
-          }
-
-          article{
-              position:absolute;
-              width:100%;
-              height:100%;
-              display:flex;
-              flex-direction: column;;
-              justify-content: center;
-              align-items: center;
-              padding: 0 ;
-              background: rgba(0,0,0,.45);
-
-
-          }
-
-          h2{
-              margin:8px 0;
-          }
-          span{
-              font-weight:100;
-          }
-
-          div.content{
-              position: relative;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-          }
-
-
           header.icon{
-              position:relative;
-              width:50px;
-              height:50px;
-              opacity:.7;
+              width:30px;
+              height:30px;
           }
-
-          header.icon.front{
-              background: url("//holdrr.com/spyne/icons/front-scooter.png") no-repeat;
-              background-size:contain;
-              background-position: center;
-          }
-          header.icon.left{
-              background: url("//holdrr.com/spyne/icons/left-scooter.png") no-repeat;
-              background-size:contain;
-          }
-          header.icon.right{
-              background: url("//holdrr.com/spyne/icons/right-scooter.png") no-repeat;
-              background-size:contain;
-          }
-          header.icon.back{
-              background: url("//holdrr.com/spyne/icons/back-scooter.png") no-repeat;
-              background-size:contain;
-          }
-
-
-          @media screen and (max-width: 700px) {
-              html {
-                  font-size:10px;
-              }
-              h2{
-                  font-size:10px;
-                  margin:0;
-              }
-              ul{
-                  font-size:8px;
-              }
-              header.icon{
-                  width:20px;
-                  height:20px;
-              }
-          }
+      }
 
       </style>
   </head>

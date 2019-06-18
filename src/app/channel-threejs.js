@@ -36,7 +36,6 @@ export class ChannelThreejs extends Channel {
   }
 
   onRegistered(){
-    console.log('channel registered');
     this.addUIChannel();
   }
 
@@ -52,7 +51,6 @@ export class ChannelThreejs extends Channel {
 
   onViewStreamInfo(vsPayload){
     let {action, payload} = vsPayload.props();
-    console.log('vs payload is ',action,payload);;
     this.sendChannelPayload(action, payload);
   }
 

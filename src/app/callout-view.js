@@ -6,13 +6,11 @@ export class CalloutView extends ViewStream {
   constructor(props = {}) {
     props.tagName='section';
     props.id='callout-holder';
-    //props.template=document.querySelector('#callout-item');
     super(props);
 
   }
 
   addActionListeners() {
-    // return nexted array(s)
     return [
         ['CHANNEL_THREEJS_ANGLE_CHANGE_EVENT', 'onAngleChangeEvent']
     ];
@@ -37,37 +35,21 @@ export class CalloutView extends ViewStream {
       front: ["Category", "Anti-roll bar", "Axle", "Axle track", "Beam axle"],
       right: ["Multifuel", "Gasoline engine", "Hesselman engine", "HCCI engine", "Hot bulb engine"],
       back: ["ET8 150", "GT 125", "GT 200", "GTS 250ie", "PX 125"]
-
-    }
-
+    };
     return itemsHash[str];
   }
 
-
   getCalloutData(str){
-
-
-
-
-
     let title = this.getTitle(str);
     let classStr = `details ${str}`;
     let items = this.getListItems(str);
-
     return {title,classStr,items};
-
   }
 
   onAngleChangeEvent(e){
     let {angleName} = e.props();
     let data = this.getCalloutData(angleName);
     this.appendView(new CalloutViewItem({data}));
-    console.log("ANGlE CHANGE EVENT",{angleName, data});
-  }
-
-  broadcastEvents() {
-    // return nexted array(s)
-    return [];
   }
 
   onRendered() {

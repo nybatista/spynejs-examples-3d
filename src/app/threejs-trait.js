@@ -9,7 +9,6 @@ export class ThreejsTrait extends SpyneTrait {
 
   }
 
-
   threejs$OnLoad(){
     const start3d = ()=>{
       let threeTest = defaultTo({});
@@ -19,19 +18,12 @@ export class ThreejsTrait extends SpyneTrait {
       } else {
         window.setTimeout(start3d, 500);
       }
-    }
+    };
     window.setTimeout(start3d, 1000);
 
   }
 
   threejs$Initialize(){
-
-
-
-
-
-
-
     var container, stats, controls;
     var camera, scene, renderer, light, clock;
     var clock = new THREE.Clock();
@@ -42,7 +34,6 @@ export class ThreejsTrait extends SpyneTrait {
     var init = ()=>{
 
       container = document.querySelector( '#threejs' );
-      // document.body.appendChild( container );
 
       camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
       camera.position.set( 100, 200, 300 );
@@ -64,32 +55,18 @@ export class ThreejsTrait extends SpyneTrait {
       light.shadow.camera.right = 320;
       scene.add( light );
 
-      // scene.add( new THREE.CameraHelper( light.shadow.camera ) );
-
-      // ground
       var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2100,2100 ), new THREE.MeshPhongMaterial( { color: 0x787878, depthWrite: true } ) );
       mesh.rotation.x = - Math.PI / 2;
       mesh.receiveShadow = true;
       scene.add( mesh );
 
-      //var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
-      //grid.material.opacity = 0.2;
-      //grid.material.transparent = true;
-      //scene.add( grid );
-
-      // model
       var loader = new THREE.FBXLoader();
-      let url = 'assets/models/vespa-2.fbx';
-      url = 'assets/models/vespa-2b.fbx';
-      url = '//holdrr.com/vespa-3d/v-scooter.fbx';
-      // url = 'assets/models/vespa-maya-v2.fbx';
+      let url = '//holdrr.com/vespa-3d/v-scooter.fbx';
 
       loader.load( url, function ( object ) {
 
         mixer = new THREE.AnimationMixer( object );
 
-        //var action = mixer.clipAction( object.animations[ 0 ] );
-        //action.play();
 
         object.traverse( function ( child ) {
 
@@ -116,46 +93,26 @@ export class ThreejsTrait extends SpyneTrait {
       controls = new THREE.OrbitControls( camera, renderer.domElement );
       controls.target.set( 0, 100, 0 );
       controls.update();
-
-      //angleUtils = new AngleUtils(controls);
-
       window.addEventListener( 'resize', onWindowResize, false );
 
-
-      // stats
-      //stats = new Stats();
-      //	container.appendChild( stats.dom );
-
-    }
-
+    };
     function onWindowResize() {
-
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
 
       renderer.setSize( window.innerWidth, window.innerHeight );
       animate();
-
-
     }
 
-
-
     const animate=()=> {
-
       if (this.props.animateScooter === true) {
-
          requestAnimationFrame( animate );
       } else {
         this.onFrameUpdate(controls.getAzimuthalAngle());
       }
-
       var delta = clock.getDelta();
-
       if ( mixer ) mixer.update( delta );
-    //  this.onFrameUpdate(controls.getAzimuthalAngle());
       renderer.render( scene, camera );
-
     };
 
     this.props.animateFn = animate;

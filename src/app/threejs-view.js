@@ -9,23 +9,16 @@ export class ThreejsView extends ViewStream {
     props.traits = ThreejsTrait;
     props.animateScooter = true;
     super(props);
-
   }
-
   onFrameUpdate(controlRads){
     let angle = this.props.angleUtils.checkAngle(controlRads);
     if (angle!==null){
       let action = 'CHANNEL_THREEJS_ANGLE_CHANGE_EVENT';
       //SEND INFO TO CHANNEL THREEEJS
       this.sendInfoToChannel("CHANNEL_THREEJS", angle, action);
-
     }
-
   }
-
-
   addActionListeners() {
-    // return nexted array(s)
     return [
       ['CHANNEL_THREEJS_START_ANIMATION_EVENT', 'onStartAnimation'],
       ['CHANNEL_THREEJS_END_ANIMATION_EVENT', 'onEndAnimation']
@@ -33,22 +26,18 @@ export class ThreejsView extends ViewStream {
   }
 
   broadcastEvents() {
-    // return nexted array(s)
     return [
       ['div', 'mousedown'],
       ['div', 'mouseup']
     ];
   }
-
   onStartAnimation(){
     this.props.animateScooter = true;
     this.props.animateFn();
   }
-
   onEndAnimation(){
     this.props.animateScooter = false;
   }
-
 
   onRendered() {
     this.props.angleUtils = new AngleUtils();

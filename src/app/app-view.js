@@ -8,7 +8,6 @@ export class AppView extends ViewStream {
     super(props);
   }
 
-
   addThreejsView(){
     this.appendView(new CalloutView());
     this.appendView(new ThreejsView());
