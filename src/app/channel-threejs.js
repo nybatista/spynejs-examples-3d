@@ -42,7 +42,7 @@ export class ChannelThreejs extends Channel {
 
   addRegisteredActions(){
     return [
-      'CHANNEL_THREEJS_ANGLE_CHANGE_ACTION',
+      'CHANNEL_THREEJS_ANGLE_CHANGE_EVENT',
         'CHANNEL_THREEJS_START_ANIMATION_EVENT',
         'CHANNEL_THREEJS_END_ANIMATION_EVENT'
     ]
@@ -53,6 +53,7 @@ export class ChannelThreejs extends Channel {
   onViewStreamInfo(vsPayload){
     let {action, payload} = vsPayload.props();
     console.log('vs payload is ',action,payload);;
+    this.sendChannelPayload(action, payload);
   }
 
 

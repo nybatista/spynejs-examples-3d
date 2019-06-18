@@ -41,7 +41,7 @@ export class ThreejsView extends ViewStream {
   onFrameUpdate(controlRads){
     let angle = this.props.angleUtils.checkAngle(controlRads);
     if (angle!==null){
-      let action = 'CHANNEL_THREEJS_ANGLE_CHANGE_ACTION';
+      let action = 'CHANNEL_THREEJS_ANGLE_CHANGE_EVENT';
       this.sendInfoToChannel("CHANNEL_THREEJS", angle, action);
 
     }

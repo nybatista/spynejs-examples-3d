@@ -105,5 +105,22 @@
   <script src="//assetscontainer.com/threejs/r102/examples/js/controls/OrbitControls.js"></script>
 
   <script src="//assetscontainer.com/threejs/r102/examples/js/WebGL.js"></script>
+  <script class="todo-tmpl" type="template">
+      <div class="view" data-type='title-dbclick-item'  >
+          <input  data-type="completed-item" class="toggle" type="checkbox">
+          <label>{{title}}</label>
+          <button  data-type='destroy-item' class="destroy"></button>
+      </div>
+      <input data-type="title-item" class="edit" value="{{title}}">
+
+  </script>
+
+  <script id="callout-item" type="template">
+          <div class="gear"></div>
+          <h2>{{title}}: <span>Details</span></h2>
+
+
+
+  </script>
   </body>
 </html>
