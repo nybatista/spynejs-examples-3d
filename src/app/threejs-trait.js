@@ -1,5 +1,5 @@
 import {SpyneTrait} from 'spyne';
-import {isNil, defaultTo, complement,compose,prop} from 'ramda';
+import {defaultTo,prop} from 'ramda';
 
 export class ThreejsTrait extends SpyneTrait {
 
@@ -106,7 +106,7 @@ export class ThreejsTrait extends SpyneTrait {
 
     const animate=()=> {
       if (this.props.animateScooter === true) {
-         requestAnimationFrame( animate );
+        requestAnimationFrame( animate );
       } else {
         this.onFrameUpdate(controls.getAzimuthalAngle());
       }
@@ -119,8 +119,8 @@ export class ThreejsTrait extends SpyneTrait {
 
     init();
     animate();
-    const delayer = ()=> animate();
-    window.setTimeout(delayer, 1000);
+    const initAnim = ()=> animate();
+    window.setTimeout(initAnim, 1000);
 
   }
 

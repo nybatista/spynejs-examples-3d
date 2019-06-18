@@ -45,8 +45,8 @@ export class ChannelThreejs extends Channel {
   addRegisteredActions(){
     return [
       'CHANNEL_THREEJS_ANGLE_CHANGE_EVENT',
-        'CHANNEL_THREEJS_START_ANIMATION_EVENT',
-        'CHANNEL_THREEJS_END_ANIMATION_EVENT'
+      'CHANNEL_THREEJS_START_ANIMATION_EVENT',
+      'CHANNEL_THREEJS_END_ANIMATION_EVENT'
     ]
 
   }

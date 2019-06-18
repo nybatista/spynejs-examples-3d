@@ -12,7 +12,7 @@ export class CalloutView extends ViewStream {
 
   addActionListeners() {
     return [
-        ['CHANNEL_THREEJS_ANGLE_CHANGE_EVENT', 'onAngleChangeEvent']
+      ['CHANNEL_THREEJS_ANGLE_CHANGE_EVENT', 'onAngleChangeEvent']
     ];
   }
 

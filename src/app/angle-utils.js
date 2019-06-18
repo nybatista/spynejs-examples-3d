@@ -19,13 +19,13 @@ export class AngleUtils  {
 
   checkAngle(n){
     const angle = THREE.Math.radToDeg(n)
-    const angleNum = 180+angle;// 360-Math.abs(angle);
-      let {index,angleName} = this.getAngleName(angleNum)
-      let isNewNameIndex = angleName!==this.prevNameIndex;
-      this.prevNameIndex = angleName;
-      if (isNewNameIndex===true){
-        return {index,angleName};
-      }
+    const angleNum = 180+angle;
+    let {index,angleName} = this.getAngleName(angleNum)
+    let isNewNameIndex = angleName!==this.prevNameIndex;
+    this.prevNameIndex = angleName;
+    if (isNewNameIndex===true){
+      return {index,angleName};
+    }
     return null;
 
   }
