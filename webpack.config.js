@@ -61,6 +61,11 @@ module.exports = (env) => {
     devServer: {
       contentBase: PATHS.src,
       historyApiFallback: true,
+
+      host: "10.0.1.34",
+
+      port: 8090
+
     },
 
     plugins: [miniCssPlugin, cleanPlugin, htmlPlugin],

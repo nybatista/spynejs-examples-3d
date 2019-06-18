@@ -28,7 +28,9 @@ export class ThreejsView extends ViewStream {
   broadcastEvents() {
     return [
       ['div', 'mousedown'],
-      ['div', 'mouseup']
+      ['div', 'mouseup'],
+      ['div', 'touchstart'],
+      ['div', 'touchend']
     ];
   }
   onStartAnimation(){
