@@ -34,9 +34,9 @@ export class CalloutView extends ViewStream {
   getListItems(str){
     const itemsHash = {
       left: ["Halley", "Euler", "d'Alembert", "Clairaut", "Lagrange"],
-      front: ["Category", "Anti-roll bar (sway bar)", "Axle", "Axle track", "Beam axle"],
+      front: ["Category", "Anti-roll bar", "Axle", "Axle track", "Beam axle"],
       right: ["Multifuel", "Gasoline engine", "Hesselman engine", "HCCI engine", "Hot bulb engine"],
-      back: ["ET8 150 (Eastern model)", "GT 125 (Granturismo 125)", "GT 200 (Granturismo 200)", "GTS 250ie", "PX 125"]
+      back: ["ET8 150", "GT 125", "GT 200", "GTS 250ie", "PX 125"]
 
     }
 
