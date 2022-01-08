@@ -47,7 +47,7 @@ export class CalloutView extends ViewStream {
   }
 
   onAngleChangeEvent(e){
-    let {angleName} = e.props();
+    let {angleName} = e.clone();
     let data = this.getCalloutData(angleName);
     this.appendView(new CalloutViewItem({data}));
   }

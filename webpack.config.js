@@ -1,158 +1,182 @@
-module.exports = (env) => {
-  const path = require('path');
-  const webpack = require('webpack');
-  const ExtractTextPlugin = require('extract-text-webpack-plugin');
-  const devMode =  env !== 'build';
+const path = require('path');
+const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-  const getEnvVals = (e) => {
-    const isProd = e === 'build';
-    const devMode =  env !== 'build';
-    const mode = isProd ? 'production' : 'development';
-    const map = isProd ? 'none' : 'inline-source-map';
-    const publicPath = isProd ? '/' : '/';
-    return {devMode, mode, map, publicPath};
+const _defaultAssetsDirName = "assets";
+const port = 8090;
 
-  };
+let mode;
+let _isProduction;
+let _buildType;
 
-  const envVals = getEnvVals(env);
+// USE "/./" FOR ROOT DOMAIN OR "./" FOR RELATIVE DOMAIN PATHS"
+let _relativeRoot = "./"
+let _publicPath;
+let _assetsFolder;
+let _imgPath;
 
-  const PATHS = {
-    dist: path.resolve(__dirname, 'dist'),
-    src: path.resolve(__dirname, 'src'),
-    js: 'dist/assets/js',
+module.exports = (env={mode:"development"})=> {
 
+  mode =           env.mode || 'development';
+  _isProduction =   env.build === true;
+  _buildType =      process.env.buildType;
+  _publicPath =     _isProduction ?  _relativeRoot : "/";
+  _assetsFolder =   _isProduction ? `${_defaultAssetsDirName}/` : "";
+  _imgPath =        `${_publicPath}static/imgs/`;
 
-  };
-
-
-  const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-  const HtmlWebpackPlugin = require('html-webpack-plugin');
-  const CleanWebpackPlugin = require('clean-webpack-plugin');
-  const miniCssPlugin = new MiniCssExtractPlugin({
-    filename: 'assets/css/main.css',
-  });
-
-  const extractSass = new ExtractTextPlugin({
-    filename: 'assets/css/main.css',
-    disable: envVals.devMode
-  });
-
-
-  const cleanPlugin = new CleanWebpackPlugin({
-    cleanOnceBeforeBuildPatterns: ['**/*', '!.gitkeep'],
-    cleanAfterEveryBuildPatterns: ['!.gitkeep'],
-
-  });
-  const htmlPlugin = new HtmlWebpackPlugin({
-    title: 'spyne-starter-app',
-    template: './src/index.tmpl.html'
-
-  });
-
-  return {
-    mode: envVals.mode,
+  const config = {
+    mode,
 
     entry: {
-      index: './src/index.js',
+      index: './src/index.js'
     },
 
-    devtool: envVals.map,
+    output: {
+      filename: `${_assetsFolder}js/[name].js`,
+      publicPath: _publicPath,
+      clean: true
+    },
+
+    devtool:  _isProduction ? false : 'inline-cheap-source-map',
 
     devServer: {
-      contentBase: PATHS.src,
+      static: {
+        directory: 'src',
+      },
       historyApiFallback: true,
-
-      host: "10.0.1.34",
-
-      port: 8090
-
+      port
     },
 
-    plugins: [miniCssPlugin, cleanPlugin, htmlPlugin],
-
-   output: {
-     filename: 'assets/js/[name].js',
-      path: PATHS.dist,
-      publicPath: envVals.publicPath,
-
-    },
-
+    plugins:  getWebpackPlugins(),
 
     optimization: {
-      splitChunks:{
+      splitChunks: {
         cacheGroups: {
-          commons: {
+          common: {
             test: /[\\/]node_modules[\\/]/,
             name: "vendor",
             chunks: 'all',
-
           }
-        }
+        },
       }
     },
 
-
     module: {
       rules: [
-        {
-          test: /\.css$/,
-          use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-              options: {
-                // you can specify a publicPath here
-                // by default it use publicPath in webpackOptions.output
-                publicPath: '../'
-              }
-            },
-            "css-loader"
-          ]
-        },
 
         {
-          test: /\html$/,
-          loader: 'html-loader'
+          test: /\.html$/,
+          loader: "html-loader",
+          options: {
+            minimize: false,
+            esModule: false,
+          }
         },
-
 
         {
           test: /\.(sa|sc|c)ss$/,
           use: [
-            envVals.devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-            'css-loader',
-            'sass-loader',
-          ],
+            _isProduction !== true ? 'style-loader' : MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader', options :{
+                sourceMap: true
+              }
+            },
+            {
+              loader: 'sass-loader', options: {
+                sourceMap: true
+              },
+            }
+          ]
+        },
+        {
+          test: /\.(ttf|woff|woff2)$/,
+          type: 'asset/resource',
+          generator: {
+            filename: `${_assetsFolder}static/fonts/[name][ext][query]`
+          }
         },
 
+        {
+          test: /\.(png|jpe?g|gif|svg)$/i,
+          type: "asset"
+        },
 
         {
-          test: /\.(png|svg|jpg|gif)$/,
+          test: /\.(json)$/,
+          type: 'javascript/auto',
           use: [
             {
               loader: 'file-loader',
               options: {
-                name(file) {
-                  let dir = String(file).includes('/imgs/') === true ? '/static/imgs/' : '/static/data/';
-                  return dir + '[name].[ext]';
-                },
+                name: `${_assetsFolder}static/data/[name].[ext]`
               },
-            }],
+            }]
+        }
 
-        },
-
-      ],
+      ]
     },
 
     resolve: {
       alias: {
+        plugins: path.resolve(__dirname, 'src/plugins/'),
         imgs: path.resolve(__dirname, 'src/static/imgs/'),
-        data: path.resolve(__dirname, 'src/static/data/'),
+        fonts: path.resolve(__dirname, 'src/static/fonts/'),
+        data: path.resolve(__dirname, '/./src/static/data/'),
         css: path.resolve(__dirname, 'src/css/'),
+        core: path.resolve(__dirname, 'src/core/'),
+        traits: path.resolve(__dirname, 'src/app/traits/'),
+        channels: path.resolve(__dirname, 'src/app/channels/'),
+        components: path.resolve(__dirname, 'src/app/components/'),
+        node_modules: path.resolve(__dirname, 'node_modules/')
 
       },
-      extensions: ['.js', '.css'],
-    },
 
+      extensions: ['.js', '.css'],
+    }
   };
 
-};
+  return config;
+
+}
+
+
+const getWebpackPlugins = ()=> {
+
+
+  const definePlugin = new webpack.DefinePlugin({
+    "IMG_PATH": JSON.stringify(_imgPath),
+    'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+  });
+
+  const htmlPlugin = new HtmlWebpackPlugin({
+    template: './src/index.tmpl.html',
+    minify: false
+  });
+
+  const miniCssPlugin = ()=> {
+    return  new MiniCssExtractPlugin({
+      filename: `${_assetsFolder}/css/main.css`
+    });
+  }
+
+  const getCopyPatternsPlugin = () => {
+    const patterns = [
+      {from: "./src/static/imgs", to: `static/imgs`}
+    ]
+
+    if (_buildType === 'apache') {
+      patterns.push(
+          {from: "./apache-htaccess", to: ".htaccess", toType: "file"})
+    }
+
+    return new CopyWebpackPlugin({patterns})
+  }
+
+  return _isProduction ?
+      [htmlPlugin, definePlugin, miniCssPlugin(), getCopyPatternsPlugin()] :
+      [htmlPlugin, definePlugin];
+
+}

@@ -20,7 +20,7 @@ export class ChannelThreejs extends Channel {
   }
 
   onMouseEvent(e){
-    let {action} = e.props();
+    let {action} = e.clone();
     //console.log("EVENT TOUCH ",e);
     action = this.getThreejsAction(action);
     this.sendChannelPayload(action, {});
