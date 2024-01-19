@@ -91,6 +91,7 @@ module.exports = (env={mode:"development"})=> {
             }
           ]
         },
+
         {
           test: /\.(ttf|woff|woff2)$/,
           type: 'asset/resource',
@@ -100,7 +101,7 @@ module.exports = (env={mode:"development"})=> {
         },
 
         {
-          test: /\.(png|jpe?g|gif|svg)$/i,
+          test: /\.(png|jpe?g|gif|svg|fbx)$/i,
           type: "asset"
         },
 

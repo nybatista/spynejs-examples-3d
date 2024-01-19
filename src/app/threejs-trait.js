@@ -61,7 +61,8 @@ export class ThreejsTrait extends SpyneTrait {
       scene.add( mesh );
 
       var loader = new THREE.FBXLoader();
-      let url = '//holdrr.com/vespa-3d/v-scooter.fbx';
+      let url = '//assetscontainer.com/temp/vespa-3d/v-scooter.fbx';
+      url = require("imgs/v-scooter.fbx");
 
       loader.load( url, function ( object ) {
 
@@ -120,8 +121,8 @@ export class ThreejsTrait extends SpyneTrait {
     init();
     animate();
     const initAnim = ()=> animate();
-    window.setTimeout(initAnim, 1000);
-
+    //window.setTimeout(initAnim, 1000);
+    requestAnimationFrame(initAnim)
   }
 
 
