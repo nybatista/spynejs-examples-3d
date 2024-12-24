@@ -53,7 +53,8 @@ export class ChannelThreejs extends Channel {
 
 
   onViewStreamInfo(vsPayload){
-    let {action, payload} = vsPayload.props();
+    console.log("PAYLOAD IS ",vsPayload)
+    let {action, payload} = vsPayload.clone();
     this.sendChannelPayload(action, payload);
   }
 

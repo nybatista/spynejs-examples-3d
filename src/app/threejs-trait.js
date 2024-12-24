@@ -55,7 +55,7 @@ export class ThreejsTrait extends SpyneTrait {
       light.shadow.camera.right = 320;
       scene.add( light );
 
-      var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2100,2100 ), new THREE.MeshPhongMaterial( { color: 0x787878, depthWrite: true } ) );
+      var mesh = new THREE.Mesh( new THREE.PlaneGeometry( 2100,2100 ), new THREE.MeshPhongMaterial( { color: 0x787878, depthWrite: true } ) );
       mesh.rotation.x = - Math.PI / 2;
       mesh.receiveShadow = true;
       scene.add( mesh );

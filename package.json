@@ -11,7 +11,8 @@
   "author": "Frank Batista",
   "license": "MIT",
   "dependencies": {
-    "spyne": "^0.18.3"
+    "spyne": "^0.19.1",
+    "three": "^0.171.0"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^10.2.0",

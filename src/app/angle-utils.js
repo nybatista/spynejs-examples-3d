@@ -8,7 +8,7 @@ export class AngleUtils  {
 
   getAngleName(n){
     const angleArr = [0,45,135,225,315,365];
-    const angleNameIndex = ['left','left','back','right','front','right']
+    const angleNameIndex = ['left','left','back','right','front','left']
     const pred = lte(n);
     const index =  findIndex(pred,angleArr);
     const angleName = angleNameIndex[index];
