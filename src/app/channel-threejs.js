@@ -12,7 +12,8 @@ export class ChannelThreejs extends Channel {
       CHANNEL_UI_MOUSEDOWN_EVENT: "CHANNEL_THREEJS_START_ANIMATION_EVENT",
       CHANNEL_UI_MOUSEUP_EVENT: "CHANNEL_THREEJS_END_ANIMATION_EVENT",
       CHANNEL_UI_TOUCHSTART_EVENT: "CHANNEL_THREEJS_START_ANIMATION_EVENT",
-      CHANNEL_UI_TOUCHEND_EVENT: "CHANNEL_THREEJS_END_ANIMATION_EVENT"
+      CHANNEL_UI_TOUCHEND_EVENT: "CHANNEL_THREEJS_END_ANIMATION_EVENT",
+      CHANNEL_WINDOW_WHEEL_EVENT: "CHANNEL_THREEJS_START_ANIMATION_EVENT"
     };
 
     return hash[str];
@@ -21,8 +22,8 @@ export class ChannelThreejs extends Channel {
 
   onMouseEvent(e){
     let {action} = e.clone();
-    //console.log("EVENT TOUCH ",e);
     action = this.getThreejsAction(action);
+
     this.sendChannelPayload(action, {});
 
   }
@@ -36,6 +37,9 @@ export class ChannelThreejs extends Channel {
     const ui$ = this.getChannel('CHANNEL_UI', uiPayloadFilter);
 
     ui$.subscribe(this.onMouseEvent.bind(this));;
+
+    this.getChannel("CHANNEL_WINDOW", new ChannelPayloadFilter({action: "CHANNEL_WINDOW_WHEEL_EVENT"}))
+        .subscribe(this.onMouseEvent.bind(this));
   }
 
   onRegistered(){

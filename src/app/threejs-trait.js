@@ -1,129 +1,188 @@
-import {SpyneTrait} from 'spyne';
-import {defaultTo,prop} from 'ramda';
+// External dependencies:
+import { SpyneTrait } from 'spyne';
+import { defaultTo, prop } from 'ramda';
+
+// Three.js core and extra modules:
+import * as THREE from 'three';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { DirectionalLightHelper, CameraHelper } from 'three';
+
+// Example: import your FBX model directly or use a static URL
+// import vespaScooterURL from 'imgs/v-scooter.fbx'; // if bundler supports
+// or, if you have a static URL, e.g.:
+//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/v-scooter.fbx';
+const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/vespa-50-special/source/vespa_50_final_00.fbx';
+//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/moped.fbx';
+//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/motorcycle/source/Motorcycle_04.fbx';
+//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/motorcycle/source/Motorcycle_04.fbx';
+//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/motorcycle/source/Motorcycle_04.fbx';
+//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/british-compact-67-low-poly-model/source/lasley67.fbx';
+//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/
+//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/low-poly-car/source/ready01.fbx'
+// const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/low-poly-hipster-van/source/HippieVanScethfab.fbx'
+//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/FINAL_MODEL_74/FINAL_MODEL_74.fbx'
 
 export class ThreejsTrait extends SpyneTrait {
+  // Class fields (optional, but helps keep track of references)
+  container = null;
+  camera = null;
+  scene = null;
+  renderer = null;
+  clock = new THREE.Clock();
+  mixer = null;
+  controls = null;
 
   constructor(context) {
-    let traitPrefix = 'threejs$';
-    super(context, traitPrefix);
 
+    super(context, 'threejs$');
   }
 
-  threejs$OnLoad(){
-    const start3d = ()=>{
-      let threeTest = defaultTo({});
-      const isLoaded = prop('FBXLoader', threeTest(THREE)) !==undefined;
-      if (isLoaded===true){
+  threejs$OnLoad() {
+    // If you'd like to detect whether FBXLoader is available:
+    const start3d = () => {
+      // Ramda usage remains as in the original code
+      const threeTest = defaultTo({});
+      const isLoaded = prop('FBXLoader', threeTest({ FBXLoader })) !== undefined;
+
+      if (isLoaded) {
         this.threejs$Initialize();
       } else {
-        window.setTimeout(start3d, 500);
+        setTimeout(start3d, 500);
       }
     };
-    window.setTimeout(start3d, 1000);
 
+    setTimeout(start3d, 1000);
   }
 
-  threejs$Initialize(){
-    var container, stats, controls;
-    var camera, scene, renderer, light, clock;
-    var clock = new THREE.Clock();
-    var mixer;
+  threejs$Initialize() {
+    // We wrap in an `init` function to organize setup code
+    const init = () => {
+      // Use a CSS selector for your container
+      this.container = document.querySelector('#threejs');
 
-    var previousRad=-1000;
+      // CAMERA
+      this.camera = new THREE.PerspectiveCamera(
+          45,
+          window.innerWidth / window.innerHeight,
+          1,
+          2000
+      );
+      this.camera.position.set(100, 200, 300);
 
-    var init = ()=>{
+      this.clock =  new THREE.Clock();
 
-      container = document.querySelector( '#threejs' );
+      // SCENE
+      this.scene = new THREE.Scene();
+      this.scene.background = new THREE.Color(0x2C3E50);
+     // this.scene.fog = new THREE.Fog(0x6CCFB4, 200, 1000);
 
-      camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
-      camera.position.set( 100, 200, 300 );
+      // LIGHTS
 
-      scene = new THREE.Scene();
-      scene.background = new THREE.Color( 0x6CCFB4 );
-      scene.fog = new THREE.Fog( 0x6CCFB4, 200, 1000 );
+      const ambientLight = new THREE.AmbientLight(0xffffff, .6);
+      this.scene.add(ambientLight);
 
-      light = new THREE.HemisphereLight( 0xffffff, 0x6CCFB4 );
-      light.position.set( 0, 200, 0 );
-      scene.add( light );
+      let hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, .6);
+      hemiLight.position.set(0, 300, 0);
+      this.scene.add(hemiLight);
 
-      light = new THREE.DirectionalLight( 0x6CCFB4 );
-      light.position.set( 0, 400, 100 );
-      light.castShadow = true;
-      light.shadow.camera.top = 380;
-      light.shadow.camera.bottom = - 300;
-      light.shadow.camera.left = - 320;
-      light.shadow.camera.right = 320;
-      scene.add( light );
-
-      var mesh = new THREE.Mesh( new THREE.PlaneGeometry( 2100,2100 ), new THREE.MeshPhongMaterial( { color: 0x787878, depthWrite: true } ) );
-      mesh.rotation.x = - Math.PI / 2;
-      mesh.receiveShadow = true;
-      scene.add( mesh );
-
-      var loader = new THREE.FBXLoader();
-      let url = '//assetscontainer.com/temp/vespa-3d/v-scooter.fbx';
-      url = require("imgs/v-scooter.fbx");
-
-      loader.load( url, function ( object ) {
-
-        mixer = new THREE.AnimationMixer( object );
+      let dirLight = new THREE.DirectionalLight(0xffffff, .8);
+      dirLight.position.set(120, 300, 50);
+      dirLight.castShadow = true;
+      dirLight.shadow.camera.top = 380;
+      dirLight.shadow.camera.bottom = -300;
+      dirLight.shadow.camera.left = -320;
+      dirLight.shadow.camera.right = 320;
+      this.scene.add(dirLight);
 
 
-        object.traverse( function ( child ) {
 
-          if ( child.isMesh ) {
+      // GROUND MESH
+      const groundMesh = new THREE.Mesh(
+          new THREE.PlaneGeometry(2100, 2100),
+          new THREE.MeshPhongMaterial({
+            color: 0x3F5360,
+            depthWrite: true,
+          })
+      );
+      groundMesh.rotation.x = -Math.PI / 2;
+      groundMesh.receiveShadow = true;
+      this.scene.add(groundMesh);
 
+      // FBX LOADER
+      const loader = new FBXLoader();
+      // If you imported directly with `import vespaScooterURL from 'imgs/v-scooter.fbx';`
+      // you could just do: loader.load(vespaScooterURL, ...)
+
+      loader.load(vespaScooterURL, (object) => {
+        this.mixer = new THREE.AnimationMixer(object);
+
+        const degreesToRadians = (deg) => (deg * Math.PI) / 180;
+
+// Rotate 90° around Y axis
+        object.rotation.set(0, degreesToRadians(-90), 0);
+
+        object.traverse((child) => {
+          if (child.isMesh) {
             child.castShadow = true;
             child.receiveShadow = true;
-
           }
+        });
 
-        } );
+        this.scene.add(object);
+      });
 
-        scene.add( object );
+      // RENDERER
+      this.renderer = new THREE.WebGLRenderer({ antialias: true });
+      this.renderer.setPixelRatio(window.devicePixelRatio);
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.renderer.shadowMap.enabled = true;
+      this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      this.container.appendChild(this.renderer.domElement);
 
-      } );
+      // CONTROLS
+      this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+      this.controls.target.set(0, 100, 0);
+      this.controls.update();
 
-      renderer = new THREE.WebGLRenderer( { antialias: true } );
-      renderer.setPixelRatio( window.devicePixelRatio );
-      renderer.setSize( window.innerWidth, window.innerHeight );
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      container.appendChild( renderer.domElement );
-
-      controls = new THREE.OrbitControls( camera, renderer.domElement );
-      controls.target.set( 0, 100, 0 );
-      controls.update();
-      window.addEventListener( 'resize', onWindowResize, false );
-
+      window.addEventListener('resize', this.threejs$onWindowResize.bind(this), false);
     };
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
 
-      renderer.setSize( window.innerWidth, window.innerHeight );
-      animate();
-    }
-
-    const animate=()=> {
-      if (this.props.animateScooter === true) {
-        requestAnimationFrame( animate );
+    // The animate function can reference `this` now that we store objects as class fields
+    const animate = () => {
+      if (this.props?.animateScooter === true) {
+        requestAnimationFrame(animate);
       } else {
-        this.onFrameUpdate(controls.getAzimuthalAngle());
+        // e.g. we can pass the azimuth angle to some handler
+        this.onFrameUpdate?.(this.controls?.getAzimuthalAngle());
       }
-      var delta = clock.getDelta();
-      if ( mixer ) mixer.update( delta );
-      renderer.render( scene, camera );
+
+     // console.log("ANIMATE IS ",this.mixer);
+      const delta = this.clock.getDelta();
+      if (this.mixer) this.mixer.update(delta);
+
+      this.renderer?.render(this.scene, this.camera);
     };
 
+    // Keep track of it, if needed in other parts of your code
     this.props.animateFn = animate;
 
+    // INIT & ANIMATE
     init();
     animate();
-    const initAnim = ()=> animate();
-    //window.setTimeout(initAnim, 1000);
-    requestAnimationFrame(initAnim)
+
+    // Extra init call if desired
+    const initAnim = () => animate();
+    requestAnimationFrame(initAnim);
   }
 
+  // Example helper: adjusts camera & renderer on window resize
+  threejs$onWindowResize() {
+    if (!this.camera || !this.renderer) return;
 
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+  }
 }
