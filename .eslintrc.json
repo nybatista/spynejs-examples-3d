@@ -13,7 +13,9 @@
   },
   "globals": {
     "process": "readonly",
-    "require": "readonly"
+    "require": "readonly",
+    "IMG_PATH": "readonly"
+
   },
   "rules": {}
 }

@@ -1,12 +1,11 @@
 import { ViewStream } from "spyne";
+import CalloutItemTmpl from './templates/callout-item.tmpl.html';
 
 export class CalloutViewItem extends ViewStream {
   constructor(props = {}) {
     props.class = props.data.classStr;
     props.tagName = "article";
-    props.animateIn = true;
-    props.animateOut = true;
-    props.template = document.querySelector("#callout-item");
+    props.template = CalloutItemTmpl;
     super(props);
   }
 

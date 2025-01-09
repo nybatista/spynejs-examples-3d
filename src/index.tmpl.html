@@ -1,39 +1,43 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>spyne example app</title>
-    <meta name="description" content="basic spyne appllication" />
-  </head>
-  <body>
-    <main id="app"></main>
+<html lang="en">
+<head>
+    <title>Example 3D/2D Communication</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <!-- Basic Metadata -->
+    <meta
+            name="description"
+            content="A base template for building SpyneJS applications."
+    />
+    <meta name="author" content="Your Name or Organization" />
+
+    <!-- Optional: Open Graph -->
     <!--
-  <script src="//unpkg.com/three@0.136.0/build/three.min.js"></script>
+    <meta property="og:title" content="SpyneJS Base App" />
+    <meta property="og:description" content="A base template for building SpyneJS apps." />
+    <meta property="og:image" content="https://example.com/assets/og-image.png" />
+    <meta property="og:url" content="https://example.com" />
+    <meta name="twitter:card" content="summary_large_image" />
 
-  <script src="//unpkg.com/three@0.136.0/examples/js/libs/fflate.min.js"></script>
-  <script src="//unpkg.com/three@0.136.0/examples/js/loaders/FBXLoader.js"></script>
+    -->
 
+    <!-- Optional: Favicon & Touch Icon -->
+    <!--
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    -->
 
-  <script src="//unpkg.com/three@0.136.0/examples/js/controls/OrbitControls.js"></script>
+    <!-- Optional: Manifest & Theme Color (PWA) -->
+    <!--
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#ffffff" />
+    -->
+</head>
+<body>
+<main id="app"></main>
 
-  <script src="//unpkg.com/three@0.136.0/examples/js/WebGL.js"></script>
-
--->
-
-    <script id="callout-item" type="template">
-      <div class="content">
-          <header class="icon {{classStr}}"></header>
-        <h2>{{title}}</h2>
-          <ul>
-              {{#items}}
-              <li>{{.*}}</li>
-              {{/items}}
-
-          </ul>
-      </div>
-    </script>
-  </body>
+<!-- NoScript Fallback -->
+<noscript> You need to enable JavaScript to run this app. </noscript>
+</body>
 </html>

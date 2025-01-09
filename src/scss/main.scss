@@ -89,17 +89,16 @@ header.icon.front {
 }
 
 header.icon.left {
-
-background: url("#{$STATIC_DIR}/imgs/left-scooter.png") no-repeat;
-background-size: contain;
+  background: url("#{$STATIC_DIR}/imgs/left-scooter.png") no-repeat;
+  background-size: contain;
 }
 header.icon.right {
-background: url("#{$STATIC_DIR}/imgs/right-scooter.png") no-repeat;
-background-size: contain;
+  background: url("#{$STATIC_DIR}/imgs/right-scooter.png") no-repeat;
+  background-size: contain;
 }
 header.icon.back {
-background: url("#{$STATIC_DIR}/imgs/back-scooter.png") no-repeat;
-background-size: contain;
+  background: url("#{$STATIC_DIR}/imgs/back-scooter.png") no-repeat;
+  background-size: contain;
 }
 
 @media screen and (max-width: 700px) {
