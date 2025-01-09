@@ -1,183 +1,238 @@
-const path = require('path');
-const webpack = require('webpack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import webpack from 'webpack';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import ESLintPlugin from 'eslint-webpack-plugin';
 
-const _defaultAssetsDirName = "assets";
-const port = 8090;
+const _defaultAssetsDirName = 'assets';
+//const port = 8056;
 
 let mode;
 let _isProduction;
 let _buildType;
 
 // USE "/./" FOR ROOT DOMAIN OR "./" FOR RELATIVE DOMAIN PATHS"
-let _relativeRoot = "./"
+let _relativeRoot = './';
 let _publicPath;
 let _assetsFolder;
 let _imgPath;
+let _iframesPath;
+let _staticDir;
+let _fontsDir;
+let _testMode = false;
 
-module.exports = (env={mode:"development"})=> {
+// Resolve __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-  mode =           env.mode || 'development';
-  _isProduction =   env.build === true;
-  _buildType =      process.env.buildType;
-  _publicPath =     _isProduction ?  _relativeRoot : "/";
-  _assetsFolder =   _isProduction ? `${_defaultAssetsDirName}/` : "";
-  _imgPath =        `${_publicPath}static/imgs/`;
+export default (env = { mode: 'development' }) => {
+  // Determine environment and build flags from CLI or environment vars
+  mode = env.mode || 'development';
+  _isProduction = env.build === true; // e.g., called via: `webpack --env build`
+  _buildType = process.env.buildType;
+
+  // For production, use a relative path if desired
+  _publicPath = _isProduction ? _relativeRoot : '/';
+  _assetsFolder = _isProduction ? `${_defaultAssetsDirName}/` : '';
+  _imgPath = `${_publicPath}${_assetsFolder}static/imgs/`;
+  _staticDir =        `${_publicPath}${_assetsFolder}static/`;
+  _fontsDir =        `${_publicPath}${_assetsFolder}static/fonts/`;
+  const sassStaticDir = _isProduction ? `././../static/` : "./static/";
+  _iframesPath = `${_publicPath}${_assetsFolder}static/iframes/`;
+  _testMode = mode === 'none';
 
   const config = {
+    // Webpack mode: 'development' | 'production' | 'none'
     mode,
 
+    // Entry point(s) for the application
     entry: {
-      index: './src/index.js'
+      index: './src/index.js',
     },
 
+    // Output bundle settings
     output: {
       filename: `${_assetsFolder}js/[name].js`,
       publicPath: _publicPath,
-      clean: true
+      clean: true,
+      crossOriginLoading: 'anonymous', // optional
     },
 
-    devtool:  _isProduction ? false : 'inline-cheap-source-map',
+    // Source map settings (can tweak as needed)
+    devtool: _isProduction ? 'source-map' : 'source-map',
 
+    // Webpack Dev Server config
     devServer: {
       static: {
-        directory: 'src',
+        directory: 'src', // Serve static files from ./src in dev
       },
       historyApiFallback: true,
-      port
+      port: 'auto',
     },
 
-    plugins:  getWebpackPlugins(),
+    // Load plugins
+    plugins: getWebpackPlugins(),
 
+    // Basic code splitting config
     optimization: {
       splitChunks: {
         cacheGroups: {
           common: {
             test: /[\\/]node_modules[\\/]/,
-            name: "vendor",
+            name: 'vendor',
             chunks: 'all',
-          }
+          },
         },
-      }
+      },
     },
 
+    // Loaders: handle .html, .css, .sass, fonts, images, etc.
     module: {
       rules: [
-
         {
           test: /\.html$/,
-          loader: "html-loader",
+          loader: 'html-loader',
           options: {
             minimize: false,
             esModule: false,
-          }
+          },
         },
-
         {
           test: /\.(sa|sc|c)ss$/,
           use: [
             _isProduction !== true ? 'style-loader' : MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader', options :{
-                sourceMap: true
+                sourceMap: true,
+                url: false
               }
             },
+
             {
               loader: 'sass-loader', options: {
-                sourceMap: true
+                sourceMap: true,
+                additionalData: "$STATIC_DIR: " + JSON.stringify(sassStaticDir)+ ";",
+                sassOptions: {
+                  fiber: false,
+                  includePaths: [
+                      `${_assetsFolder}static/fonts/`
+                  ]
+                }
+
               },
             }
           ]
         },
-
         {
           test: /\.(ttf|woff|woff2)$/,
           type: 'asset/resource',
           generator: {
-            filename: `${_assetsFolder}static/fonts/[name][ext][query]`
+            filename: `${_assetsFolder}static/fonts/[name][ext][query]`,
+          },
+        },
+        {
+          test: /\.(png|jpe?g|gif)$/i,
+          type: 'asset',
+          generator: {
+            filename: `${_assetsFolder}static/imgs/[name].[ext]`,
+
           }
         },
-
         {
-          test: /\.(png|jpe?g|gif|svg|fbx)$/i,
-          type: "asset"
-        },
-
-        {
-          test: /\.(json)$/,
+          test: /\.json$/,
           type: 'javascript/auto',
           use: [
             {
               loader: 'file-loader',
               options: {
-                name: `${_assetsFolder}static/data/[name].[ext]`
+                name: `${_assetsFolder}static/data/[name].[ext]`,
               },
-            }]
-        }
-
-      ]
+            },
+          ],
+        },
+        {
+          test: /\.svg$/i,
+          use: 'raw-loader',
+        },
+      ],
     },
 
+    // Short-path aliases for imports
     resolve: {
       alias: {
         plugins: path.resolve(__dirname, 'src/plugins/'),
         imgs: path.resolve(__dirname, 'src/static/imgs/'),
+        svgs: path.resolve(__dirname, 'src/static/imgs/svgs/'),
+        iframes: path.resolve(__dirname, 'src/static/iframes/'),
         fonts: path.resolve(__dirname, 'src/static/fonts/'),
-        data: path.resolve(__dirname, '/./src/static/data/'),
+        data: path.resolve(__dirname, '/./src/static/data/'), // Possibly simplify
         css: path.resolve(__dirname, 'src/css/'),
         core: path.resolve(__dirname, 'src/core/'),
         traits: path.resolve(__dirname, 'src/app/traits/'),
         channels: path.resolve(__dirname, 'src/app/channels/'),
         components: path.resolve(__dirname, 'src/app/components/'),
-        node_modules: path.resolve(__dirname, 'node_modules/')
-
+        node_modules: path.resolve(__dirname, 'node_modules/'),
       },
 
       extensions: ['.js', '.css'],
-    }
+    },
   };
 
   return config;
+};
 
-}
-
-
-const getWebpackPlugins = ()=> {
-
-
+function getWebpackPlugins() {
   const definePlugin = new webpack.DefinePlugin({
-    "IMG_PATH": JSON.stringify(_imgPath),
-    'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    IMG_PATH: JSON.stringify(_imgPath),
+    IFRAMES_PATH: JSON.stringify(_iframesPath),
+    NODE_ENV: JSON.stringify(process.env.NODE_ENV),
   });
 
   const htmlPlugin = new HtmlWebpackPlugin({
     template: './src/index.tmpl.html',
-    minify: false
+    minify: false,
   });
 
-  const miniCssPlugin = ()=> {
-    return  new MiniCssExtractPlugin({
-      filename: `${_assetsFolder}/css/main.css`
-    });
-  }
+  const miniCssPlugin = () =>
+      new MiniCssExtractPlugin({
+        filename: `${_assetsFolder}css/main.css`,
+      });
 
   const getCopyPatternsPlugin = () => {
     const patterns = [
-      {from: "./src/static/imgs", to: `static/imgs`}
-    ]
+      { from: './src/static/imgs', to: `${_assetsFolder}static/imgs` },
+    ];
 
     if (_buildType === 'apache') {
-      patterns.push(
-          {from: "./apache-htaccess", to: ".htaccess", toType: "file"})
+      patterns.push({
+        from: './apache-htaccess',
+        to: '.htaccess',
+        toType: 'file',
+      });
     }
 
-    return new CopyWebpackPlugin({patterns})
+    return new CopyWebpackPlugin({ patterns });
+  };
+
+  const eslintPlugin = new ESLintPlugin({
+    extensions: ['js'],
+    fix: false,
+    emitWarning: true,
+  });
+
+  if (_isProduction) {
+    return [
+      htmlPlugin,
+      definePlugin,
+      miniCssPlugin(),
+      getCopyPatternsPlugin(),
+      eslintPlugin,
+    ];
+  } else if (_testMode === false) {
+    return [htmlPlugin, definePlugin];
+  } else {
+    return [htmlPlugin, definePlugin];
   }
-
-  return _isProduction ?
-      [htmlPlugin, definePlugin, miniCssPlugin(), getCopyPatternsPlugin()] :
-      [htmlPlugin, definePlugin];
-
 }

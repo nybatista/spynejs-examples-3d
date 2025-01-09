@@ -1,9 +1,6 @@
-
 .profiles-page {
-
   .profile-item {
-    position:relative;
-
+    position: relative;
 
     background: $slate;
     border-radius: 8px;
@@ -13,42 +10,39 @@
     //padding: 4rem 7rem 7rem 7rem;
     color: antiquewhite;
 
-
     min-width: 60vw;
     min-height: 65vh;
 
-    opacity:0;
-    transition: opacity .5s ease .75s;
+    opacity: 0;
+    transition: opacity 0.5s ease 0.75s;
 
-    &.reveal{
-      opacity:1;
+    &.reveal {
+      opacity: 1;
     }
 
-
-    header{
-      position:relative;
-      margin:4rem 0;
+    header {
+      position: relative;
+      margin: 4rem 0;
     }
 
-
-    p,h2,h3,h4,h5{
-      position:relative;
-      margin:2px 0;
-      padding:0;
+    p,
+    h2,
+    h3,
+    h4,
+    h5 {
+      position: relative;
+      margin: 2px 0;
+      padding: 0;
     }
-
-
 
     div.images {
       position: relative;
       display: flex;
-      flex-direction: column;;
+      flex-direction: column;
       align-items: center;
       width: 180px;
       //margin-left: 1rem;
       margin: 1rem 4rem 0 4rem;
-
-
 
       div.avatar {
         position: relative;
@@ -67,14 +61,7 @@
           align-self: flex-end;
           background: $taupe;
         }
-
-
-
       }
     }
-
   }
-
-
-
 }

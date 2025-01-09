@@ -1,19 +1,18 @@
-$slate: #00474F;
-$beigeLight: #FDFCFA;
-$beigeMed: #F3EAE1;
-$warmRed: #E97643;
-$blue: #232E69;
-$taupe: #716E50;
-@import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,500,700');
+$slate: #00474f;
+$beigeLight: #fdfcfa;
+$beigeMed: #f3eae1;
+$warmRed: #e97643;
+$blue: #232e69;
+$taupe: #716e50;
+@import url("https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,500,700");
 
+$z-index-ui: 1000;
 
-$z-index-ui:1000;
-
-.btn{
-  position:relative;
+.btn {
+  position: relative;
   border: 0 none;
   border-radius: 6px 6px 6px 6px;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
   display: inline-block;
   vertical-align: middle;
@@ -29,14 +28,11 @@ $z-index-ui:1000;
   //margin-bottom: 0.625em;
   background: $blue;
   opacity: 1;
-  @media(max-width:1080px){
-    font-size:1.8rem;
+  @media (max-width: 1080px) {
+    font-size: 1.8rem;
   }
 
-  &:hover{
-    opacity:.8;
+  &:hover {
+    opacity: 0.8;
   }
-
 }
-
-

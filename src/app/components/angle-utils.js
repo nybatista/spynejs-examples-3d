@@ -1,5 +1,5 @@
-import { lte, findIndex } from 'ramda';
-import { MathUtils } from 'three';
+import { lte, findIndex } from "ramda";
+import { MathUtils } from "three";
 
 export class AngleUtils {
   constructor() {
@@ -12,12 +12,12 @@ export class AngleUtils {
    */
   getAngleName(deg) {
     const angleArr = [0, 45, 135, 225, 315, 365];
-    const angleNameIndex = ['left', 'left', 'back', 'right', 'front', 'left'];
+    const angleNameIndex = ["left", "left", "back", "right", "front", "left"];
     // Example: lte(deg) => (x) => deg <= x
     const pred = lte(deg);
     const index = findIndex(pred, angleArr);
     const angleName = angleNameIndex[index];
-    console.log("deg ",{deg, angleName})
+    console.log("deg ", { deg, angleName });
     return { index, angleName };
   }
 

@@ -1,31 +1,28 @@
 #page-profiles {
-
-
-  #profile-back-btn{
+  #profile-back-btn {
     position: fixed;
     width: 5vw;
-    height:4vh;
+    height: 4vh;
     max-width: 40px;
-    min-width:30px;
+    min-width: 30px;
     top: 80px;
     left: 10px;
-    display:flex;
-    flex-direction: column;;
+    display: flex;
+    flex-direction: column;
     justify-content: flex-end;
     opacity: 0;
     pointer-events: none;
     z-index: $z-index-ui;
     &.reveal {
       cursor: pointer;
-      transition: opacity .5s ease;
+      transition: opacity 0.5s ease;
       pointer-events: all;
-      opacity:.2;
-      &:hover{
-        opacity:.3;
+      opacity: 0.2;
+      &:hover {
+        opacity: 0.3;
       }
     }
   }
-
 
   div.avatar {
     position: relative;
@@ -46,40 +43,34 @@
       height: 100%;
       border-radius: 50%;
 
-      overflow: hidden;;
+      overflow: hidden;
 
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
 
-
       img {
         position: relative;
         min-width: 130%;
 
         //position:absolute;
-
       }
-
     }
-
   }
 
-
-  article.profiles-content-holder{
-    position:relative;
-    .profile-item-holder{
-      position:fixed;
-      display:flex;
+  article.profiles-content-holder {
+    position: relative;
+    .profile-item-holder {
+      position: fixed;
+      display: flex;
       flex-direction: column;
       align-items: center;
-      left:0;
+      left: 0;
       width: 100%;
     }
   }
   #profiles-menu {
-
     position: relative;
 
     //display: flex;
@@ -96,7 +87,6 @@
     visibility: visible;
     // transition: all 1.5s ease-in-out;
 
-
     left: 0;
     opacity: 1;
     @keyframes bounceLeft {
@@ -110,22 +100,17 @@
       }
     }
 
-
     &.hide {
-
       animation-name: bounceLeft;
-      animation-duration: .5s;
+      animation-duration: 0.5s;
       animation-fill-mode: forwards;
 
       pointer-events: none;
 
-      li{
+      li {
         pointer-events: none;
       }
-
-
     }
-
 
     li {
       position: relative;
@@ -140,7 +125,9 @@
       pointer-events: all;
       align-items: center;
       cursor: pointer;
-      box-shadow: 0 2px 2px rgba(10, 16, 20, .24), 0 0 2px rgba(10, 16, 20, .12);
+      box-shadow:
+        0 2px 2px rgba(10, 16, 20, 0.24),
+        0 0 2px rgba(10, 16, 20, 0.12);
       user-select: none;
 
       header {
@@ -149,18 +136,20 @@
         margin: 10px 0 0 0;
         pointer-events: none;
 
-
         &.location {
           position: absolute;
           bottom: 30px;
 
           p {
-            font-style: italic;;
-            font-size: .8rem;
+            font-style: italic;
+            font-size: 0.8rem;
           }
         }
 
-        p, h3, h4, h5 {
+        p,
+        h3,
+        h4,
+        h5 {
           position: relative;
           margin: 0;
           padding: 0;
@@ -172,13 +161,10 @@
           color: $warmRed;
           margin: 0 0 4px 0;
         }
-
-
       }
-
     }
 
-    @media(max-width: 1080px) and (orientation: portrait) {
+    @media (max-width: 1080px) and (orientation: portrait) {
       grid-template-columns: repeat(auto-fill, 90%);
       li {
         width: 94%;
@@ -190,46 +176,34 @@
         }
       }
     }
-
-
   }
 
-
-  @media(max-width: 1080px) and (orientation: landscape) {
-
-    .profile-item-holder{
+  @media (max-width: 1080px) and (orientation: landscape) {
+    .profile-item-holder {
       width: 100%;
 
-
-
-      .profile-item{
+      .profile-item {
         flex-direction: row;
         left: 0;
         width: 80%;
         //align-items: flex-start;
-        margin-top:-20px;
+        margin-top: -20px;
 
         align-items: center;
         justify-content: center;
 
-        .images{
-         // top: 20px;
+        .images {
+          // top: 20px;
           //width:200px;
         }
 
-        .info{
-            margin:1rem 0;
-          header{
-            margin:  .5rem  1rem 0 2rem;
+        .info {
+          margin: 1rem 0;
+          header {
+            margin: 0.5rem 1rem 0 2rem;
           }
-
         }
-
       }
     }
-
   }
-
-
-
 }

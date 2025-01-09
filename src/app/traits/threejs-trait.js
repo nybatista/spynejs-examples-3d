@@ -1,27 +1,18 @@
 // External dependencies:
-import { SpyneTrait } from 'spyne';
-import { defaultTo, prop } from 'ramda';
+import { SpyneTrait } from "spyne";
+import { defaultTo, prop } from "ramda";
 
 // Three.js core and extra modules:
-import * as THREE from 'three';
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { DirectionalLightHelper, CameraHelper } from 'three';
+import * as THREE from "three";
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 // Example: import your FBX model directly or use a static URL
 // import vespaScooterURL from 'imgs/v-scooter.fbx'; // if bundler supports
 // or, if you have a static URL, e.g.:
 //const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/v-scooter.fbx';
-const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/vespa-50-special/source/vespa_50_final_00.fbx';
-//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/moped.fbx';
-//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/motorcycle/source/Motorcycle_04.fbx';
-//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/motorcycle/source/Motorcycle_04.fbx';
-//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/motorcycle/source/Motorcycle_04.fbx';
-//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/british-compact-67-low-poly-model/source/lasley67.fbx';
-//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/
-//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/low-poly-car/source/ready01.fbx'
-// const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/low-poly-hipster-van/source/HippieVanScethfab.fbx'
-//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/FINAL_MODEL_74/FINAL_MODEL_74.fbx'
+const vespaScooterURL =
+  "//assetscontainer.com/temp/vespa-3d/vespa-50-special/source/vespa_50_final_00.fbx";
 
 export class ThreejsTrait extends SpyneTrait {
   // Class fields (optional, but helps keep track of references)
@@ -34,8 +25,7 @@ export class ThreejsTrait extends SpyneTrait {
   controls = null;
 
   constructor(context) {
-
-    super(context, 'threejs$');
+    super(context, "threejs$");
   }
 
   threejs$OnLoad() {
@@ -43,50 +33,51 @@ export class ThreejsTrait extends SpyneTrait {
     const start3d = () => {
       // Ramda usage remains as in the original code
       const threeTest = defaultTo({});
-      const isLoaded = prop('FBXLoader', threeTest({ FBXLoader })) !== undefined;
+      const isLoaded =
+        prop("FBXLoader", threeTest({ FBXLoader })) !== undefined;
 
       if (isLoaded) {
         this.threejs$Initialize();
       } else {
-        setTimeout(start3d, 500);
+        setTimeout(start3d, 100);
       }
     };
 
-    setTimeout(start3d, 1000);
+    setTimeout(start3d, 100);
   }
 
   threejs$Initialize() {
     // We wrap in an `init` function to organize setup code
     const init = () => {
       // Use a CSS selector for your container
-      this.container = document.querySelector('#threejs');
+      this.container = document.querySelector("#threejs");
 
       // CAMERA
       this.camera = new THREE.PerspectiveCamera(
-          45,
-          window.innerWidth / window.innerHeight,
-          1,
-          2000
+        45,
+        window.innerWidth / window.innerHeight,
+        1,
+        2000,
       );
       this.camera.position.set(100, 200, 300);
 
-      this.clock =  new THREE.Clock();
+      this.clock = new THREE.Clock();
 
       // SCENE
       this.scene = new THREE.Scene();
-      this.scene.background = new THREE.Color(0x2C3E50);
-     // this.scene.fog = new THREE.Fog(0x6CCFB4, 200, 1000);
+      this.scene.background = new THREE.Color(0x2c3e50);
+      // this.scene.fog = new THREE.Fog(0x6CCFB4, 200, 1000);
 
       // LIGHTS
 
-      const ambientLight = new THREE.AmbientLight(0xffffff, .6);
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
       this.scene.add(ambientLight);
 
-      let hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, .6);
+      let hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
       hemiLight.position.set(0, 300, 0);
       this.scene.add(hemiLight);
 
-      let dirLight = new THREE.DirectionalLight(0xffffff, .8);
+      let dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
       dirLight.position.set(120, 300, 50);
       dirLight.castShadow = true;
       dirLight.shadow.camera.top = 380;
@@ -95,15 +86,13 @@ export class ThreejsTrait extends SpyneTrait {
       dirLight.shadow.camera.right = 320;
       this.scene.add(dirLight);
 
-
-
       // GROUND MESH
       const groundMesh = new THREE.Mesh(
-          new THREE.PlaneGeometry(2100, 2100),
-          new THREE.MeshPhongMaterial({
-            color: 0x3F5360,
-            depthWrite: true,
-          })
+        new THREE.PlaneGeometry(2100, 2100),
+        new THREE.MeshPhongMaterial({
+          color: 0x3f5360,
+          depthWrite: true,
+        }),
       );
       groundMesh.rotation.x = -Math.PI / 2;
       groundMesh.receiveShadow = true;
@@ -119,7 +108,7 @@ export class ThreejsTrait extends SpyneTrait {
 
         const degreesToRadians = (deg) => (deg * Math.PI) / 180;
 
-// Rotate 90° around Y axis
+        // Rotate 90° around Y axis
         object.rotation.set(0, degreesToRadians(-90), 0);
 
         object.traverse((child) => {
@@ -145,7 +134,11 @@ export class ThreejsTrait extends SpyneTrait {
       this.controls.target.set(0, 100, 0);
       this.controls.update();
 
-      window.addEventListener('resize', this.threejs$onWindowResize.bind(this), false);
+      window.addEventListener(
+        "resize",
+        this.threejs$onWindowResize.bind(this),
+        false,
+      );
     };
 
     // The animate function can reference `this` now that we store objects as class fields
@@ -157,7 +150,7 @@ export class ThreejsTrait extends SpyneTrait {
         this.onFrameUpdate?.(this.controls?.getAzimuthalAngle());
       }
 
-     // console.log("ANIMATE IS ",this.mixer);
+      // console.log("ANIMATE IS ",this.mixer);
       const delta = this.clock.getDelta();
       if (this.mixer) this.mixer.update(delta);
 

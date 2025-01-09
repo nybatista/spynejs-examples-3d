@@ -1,44 +1,140 @@
-@import "globals/fluid-type.scss";
-@import "globals/globals.scss";
-@import "header.scss";
-@import "pages.scss";
-@import "profiles.scss";
-@import "profile-item.scss";
-
-body{
-  position: absolute;
-  top:0;
-  left:0;
-  margin:0;
-  padding:0;
-  width:100%;
-  height:100%;
-  background: $beigeMed;
-  font-family: 'Ubuntu', sans-serif;
-
-  h1{
-    position: relative;
-    color: $blue;
-    text-align: center;
-    margin: 2rem 0;
-    &.c404{
-      margin:15vh 0 0 0;
-      font-size:20rem;
-      opacity: .5;
-    }
-  }
-
-  #cc-attr{
-
-    position: absolute;
-    right:0;
-    color: orange;
-
-    a{
-      color: skyblue;;
-    }
-  }
-
-
+body {
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  line-height: 120%;
 }
 
+ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 30px;
+  margin: 0;
+  padding: 0 0 8px 0;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+  line-height: 100%;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+button {
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+canvas {
+  display: block;
+}
+
+section {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 35vw;
+  min-width: 200px;
+  height: 30vh;
+  min-height: 150px;
+  color: #fff;
+  pointer-events: none;
+}
+
+article {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+h2 {
+  margin: 8px 0;
+}
+span {
+  font-weight: 100;
+}
+
+div.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header.icon {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  opacity: 0.7;
+}
+
+header.icon.front {
+  background: url("#{$STATIC_DIR}/imgs/front-scooter.png") no-repeat;
+  //background: url("../static/imgs/front-scooter.png") no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+header.icon.left {
+
+background: url("#{$STATIC_DIR}/imgs/left-scooter.png") no-repeat;
+background-size: contain;
+}
+header.icon.right {
+background: url("#{$STATIC_DIR}/imgs/right-scooter.png") no-repeat;
+background-size: contain;
+}
+header.icon.back {
+background: url("#{$STATIC_DIR}/imgs/back-scooter.png") no-repeat;
+background-size: contain;
+}
+
+@media screen and (max-width: 700px) {
+  html {
+    font-size: 10px;
+  }
+  h2 {
+    font-size: 14px;
+    margin: 4px 0;
+  }
+  ul {
+    font-size: 8px;
+  }
+  header.icon {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+#cc-attr {
+  position: absolute;
+  right: 0;
+  color: orange;
+  padding: 0 1rem;
+
+  a {
+    color: skyblue;
+  }
+}
+
+#cc-attr p {
+  font-size: 0.75rem;
+  font-family: monospace;
+}
+
+a {
+  color: skyblue;
+}

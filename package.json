@@ -6,7 +6,10 @@
   "scripts": {
     "start": "webpack-dev-server --open",
     "build": "webpack --mode production --env build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --config eslint.config.js",
+    "lint:fix": "eslint --config eslint.config.js --fix",
+    "format": "prettier --write 'src/**/*.{js,css,scss,html}'"
   },
   "author": "Frank Batista",
   "license": "MIT",
@@ -15,19 +18,40 @@
     "three": "^0.171.0"
   },
   "devDependencies": {
+    "@esm-bundle/chai": "^4.3.4-fix.0",
+    "@web/dev-server": "^0.4.6",
+    "@web/dev-server-esbuild": "^1.0.3",
+    "@web/test-runner": "^0.19.0",
+    "@web/test-runner-commands": "^0.9.0",
+    "@web/test-runner-junit-reporter": "^0.7.2",
+    "@web/test-runner-mocha": "^0.9.0",
+    "chai": "^5.1.2",
     "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^7.1.2",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-mocha": "^10.5.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-webpack-plugin": "^4.2.0",
     "file-loader": "^6.2.0",
+    "globals": "^15.14.0",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.3",
     "mini-css-extract-plugin": "^2.9.2",
+    "mocha": "^11.0.1",
+    "prettier": "^3.4.2",
     "requirejs": "^2.3.7",
+    "resolve-url-loader": "^5.0.0",
     "sass": "^1.83.0",
     "sass-loader": "^16.0.4",
-    "spyne-plugin-console": "^0.5.1",
+    "spyne-cli": "^0.6.2",
+    "spyne-plugin-console": "^0.5.2",
     "style-loader": "^4.0.0",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.0"
+
+
   }
 }

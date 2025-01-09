@@ -2,16 +2,15 @@ $baseline: 1.2rem;
 
 $minScreen: 20rem;
 $maxScreen: 50rem;
-$minFont: .6rem;
+$minFont: 0.6rem;
 $maxFont: 1rem;
 
 $h1: 2rem;
 $h2: 1.5rem;
 $h3: 1.25rem;
 $h4: 1rem;
-$h5: .875rem;
+$h5: 0.875rem;
 $a: 1rem;
-
 
 @mixin fluid-type($properties, $min-vw, $max-vw, $min-value, $max-value) {
   & {
@@ -21,7 +20,11 @@ $a: 1rem;
 
     @media screen and (min-width: $min-vw) {
       @each $property in $properties {
-        #{$property}: calc(#{$min-value} + #{strip-unit($max-value - $min-value)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+        #{$property}: calc(
+          #{$min-value} +
+            #{strip-unit($max-value - $min-value)} *
+            ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)})
+        );
       }
     }
 
@@ -37,7 +40,7 @@ $a: 1rem;
   @return $value / ($value * 0 + 1);
 }
 
-*{
+* {
   box-sizing: border-box;
 }
 
@@ -58,7 +61,7 @@ body {
   width: 22rem;
 }
 
-p{
+p {
   line-height: $baseline;
   margin-bottom: $baseline;
 }
@@ -67,11 +70,10 @@ h1,
 h2,
 h3,
 h4,
-h5{
+h5 {
   font-weight: 700;
   margin-bottom: $baseline;
 }
-
 
 a {
   font-size: $a;
@@ -88,23 +90,23 @@ h1 {
 h2 {
   font-size: $h2;
   line-height: $h2;
-  margin-top: calc((#{$baseline} - #{$h2}) + #{$baseline}*2);
+  margin-top: calc((#{$baseline} - #{$h2}) + #{$baseline}* 2);
 }
 
 h3 {
   font-size: $h3;
   line-height: $h3;
-  margin-top: calc((#{$baseline} - #{$h3}) + #{$baseline}*2);
+  margin-top: calc((#{$baseline} - #{$h3}) + #{$baseline}* 2);
 }
 
 h4 {
-   font-size: $h4;
-   line-height: $h4;
-   margin-top: calc((#{$baseline} - #{$h4}) + #{$baseline}*2);
- }
+  font-size: $h4;
+  line-height: $h4;
+  margin-top: calc((#{$baseline} - #{$h4}) + #{$baseline}* 2);
+}
 
 h5 {
   font-size: $h5;
   line-height: $h5;
-  margin-top: calc((#{$baseline} - #{$h5}) + #{$baseline}*2);
+  margin-top: calc((#{$baseline} - #{$h5}) + #{$baseline}* 2);
 }

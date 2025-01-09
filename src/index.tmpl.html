@@ -1,174 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>spyne example app</title>
-  <meta name="description" content="basic spyne appllication">
-<!--
-      <link rel="stylesheet"  href="//assetscontainer.com/starter-app/css/main.css"/>
--->
-      <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,700&display=swap" rel="stylesheet">
-
-      <style>                   body {
-          margin: 0;
-          font-family: "Nunito", sans-serif;
-          font-size: 14px;
-          line-height: 120%;
-      }
-
-      ul{
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          grid-column-gap: 30px;
-          margin:0;
-          padding: 0 0 8px 0;
-      }
-
-      li{
-          margin: 0;
-          padding:0;
-          line-height:100%;
-      }
-
-
-
-      h2{
-          font-size:1.5rem;
-      }
-
-
-
-      button {
-          cursor: pointer;
-          text-transform: uppercase;
-      }
-
-      canvas {
-          display: block;
-      }
-
-
-      section{
-          position:absolute;;
-          top:10px;
-          left:20px;
-          display:flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          width: 35vw;
-          min-width:200px;
-          height:30vh;
-          min-height:150px;
-          color:#fff;
-          pointer-events: none;
-
-
-      }
-
-      article{
-          position:absolute;
-          width:100%;
-          height:100%;
-          display:flex;
-          flex-direction: column;;
-          justify-content: center;
-          align-items: center;
-          padding: 0 ;
-          background: rgba(0,0,0,.45);
-
-
-      }
-
-      h2{
-          margin:8px 0;
-      }
-      span{
-          font-weight:100;
-      }
-
-      div.content{
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-      }
-
-
-      header.icon{
-          position:relative;
-          width:50px;
-          height:50px;
-          opacity:.7;
-      }
-
-      header.icon.front{
-          background: url("static/imgs/front-scooter.png") no-repeat;
-          background-size:contain;
-          background-position: center;
-      }
-      header.icon.left{
-          background: url("static/imgs/left-scooter.png") no-repeat;
-          background-size:contain;
-      }
-      header.icon.right{
-          background: url("static/imgs/right-scooter.png") no-repeat;
-          background-size:contain;
-      }
-      header.icon.back{
-          background: url("/static/imgs/back-scooter.png") no-repeat;
-          background-size:contain;
-      }
-
-
-      @media screen and (max-width: 700px) {
-          html {
-              font-size:10px;
-          }
-          h2{
-              font-size:14px;
-              margin:4px 0;
-          }
-          ul{
-              font-size:8px;
-          }
-          header.icon{
-              width:30px;
-              height:30px;
-          }
-      }
-
-      #cc-attr{
-
-          position: absolute;
-          right:0;
-          color: #FF6F3C;
-          padding:0 1rem;
-
-      }
-
-      #cc-attr p{
-          font-size: .75rem;
-          font-family: monospace;
-      }
-
-      a{
-          color: skyblue;;
-      }
-
-      </style>
+    <meta name="description" content="basic spyne appllication" />
   </head>
   <body>
+    <main id="app"></main>
 
-  <main id="app">
-
-
-  </main>
-
-
-<!--
+    <!--
   <script src="//unpkg.com/three@0.136.0/build/three.min.js"></script>
 
   <script src="//unpkg.com/three@0.136.0/examples/js/libs/fflate.min.js"></script>
@@ -181,19 +23,17 @@
 
 -->
 
-  <script id="callout-item" type="template">
-        <div class="content">
-            <header class="icon {{classStr}}"></header>
-          <h2>{{title}}</h2>
-            <ul>
-                {{#items}}
-                <li>{{.*}}</li>
-                {{/items}}
+    <script id="callout-item" type="template">
+      <div class="content">
+          <header class="icon {{classStr}}"></header>
+        <h2>{{title}}</h2>
+          <ul>
+              {{#items}}
+              <li>{{.*}}</li>
+              {{/items}}
 
-            </ul>
-        </div>
-
-
-  </script>
+          </ul>
+      </div>
+    </script>
   </body>
 </html>

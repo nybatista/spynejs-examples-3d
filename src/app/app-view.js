@@ -1,26 +1,21 @@
-import {ViewStream} from 'spyne';
-import {ThreejsView} from './threejs-view';
-import {CalloutView} from './callout-view';
-import {CcAttrView} from './cc-attr-view';
+import { ViewStream } from "spyne";
+import { ThreejsView } from "components/threejs-view";
+import { CalloutView } from "components/callout-view";
+import { CcAttrView } from "components/cc-attr-view";
 
 export class AppView extends ViewStream {
-  constructor(props={}){
-    props.el = document.querySelector('#app')
+  constructor(props = {}) {
+    props.el = document.querySelector("#app");
     super(props);
   }
 
-  addThreejsView(){
+  addThreejsView() {
     this.appendView(new CcAttrView());
     this.appendView(new CalloutView());
     this.appendView(new ThreejsView());
-
   }
 
-  onRendered(){
+  onRendered() {
     this.addThreejsView();
   }
-
-
-
-
 }
