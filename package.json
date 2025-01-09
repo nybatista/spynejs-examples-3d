@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Spyne Starter App",
   "main": "index.js",
+  "type" : "module",
   "scripts": {
     "start": "webpack-dev-server --open",
     "build": "webpack --mode production --env build",

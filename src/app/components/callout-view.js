@@ -1,5 +1,5 @@
 import { ViewStream } from "spyne";
-import { CalloutViewItem } from "./callout-view-item";
+import { CalloutViewItem } from "./callout-view-item.js";
 
 export class CalloutView extends ViewStream {
   constructor(props = {}) {

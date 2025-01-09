@@ -1,8 +1,8 @@
 import "./scss/main.scss";
 
 import { SpyneApp } from "spyne";
-import { ChannelThreejs } from "channels/channel-threejs";
-import { AppView } from "./app/app-view";
+import { ChannelThreejs } from "channels/channel-threejs.js";
+import { AppView } from "./app/app-view.js";
 import { SpynePluginConsole } from "spyne-plugin-console";
 
 const config = {

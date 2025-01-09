@@ -1,5 +1,5 @@
 import { ViewStream } from "spyne";
-import CalloutItemTmpl from './templates/callout-item.tmpl.html';
+import CalloutItemTmpl from "./templates/callout-item.tmpl.html";
 
 export class CalloutViewItem extends ViewStream {
   constructor(props = {}) {

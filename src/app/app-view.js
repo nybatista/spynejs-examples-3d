@@ -1,7 +1,7 @@
 import { ViewStream } from "spyne";
-import { ThreejsView } from "components/threejs-view";
-import { CalloutView } from "components/callout-view";
-import { CcAttrView } from "components/cc-attr-view";
+import { ThreejsView } from "components/threejs-view.js";
+import { CalloutView } from "components/callout-view.js";
+import { CcAttrView } from "components/cc-attr-view.js";
 
 export class AppView extends ViewStream {
   constructor(props = {}) {
