@@ -1,11 +1,20 @@
 import { ViewStream } from "spyne";
-import CalloutItemTmpl from "./templates/callout-item.tmpl.html";
 
 export class CalloutViewItem extends ViewStream {
   constructor(props = {}) {
     props.class = props.data.classStr;
     props.tagName = "article";
-    props.template = CalloutItemTmpl;
+    props.template = `<div class="content">
+                      <header class="icon {{classStr}}"></header>
+                      <h2>{{title}}</h2>
+                      <ul>
+                        {{#items}}
+                        <li>{{.*}}</li>
+                        {{/items}}
+                      </ul>
+                    </div>
+                    `;
+    props.channels = ['CHANNEL_THREEJS'];
     super(props);
   }
 
@@ -13,7 +22,4 @@ export class CalloutViewItem extends ViewStream {
     return [["CHANNEL_THREEJS_ANGLE_CHANGE_EVENT", "disposeViewStream"]];
   }
 
-  onRendered() {
-    this.addChannel("CHANNEL_THREEJS");
-  }
 }

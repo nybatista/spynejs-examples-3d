@@ -7,13 +7,8 @@ import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-// Example: import your FBX model directly or use a static URL
-// import vespaScooterURL from 'imgs/v-scooter.fbx'; // if bundler supports
-// or, if you have a static URL, e.g.:
-//const vespaScooterURL = '//assetscontainer.com/temp/vespa-3d/v-scooter.fbx';
 const vespaScooterURL = IMG_PATH + "models/vespa_50_final_00.fbx";
 
-//"//assetscontainer.com/temp/vespa-3d/vespa-50-special/source/vespa_50_final_00.fbx";
 
 export class ThreejsTrait extends SpyneTrait {
   // Class fields (optional, but helps keep track of references)
