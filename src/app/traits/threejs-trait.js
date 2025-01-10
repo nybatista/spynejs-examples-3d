@@ -9,7 +9,6 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 const vespaScooterURL = IMG_PATH + "models/vespa_50_final_00.fbx";
 
-
 export class ThreejsTrait extends SpyneTrait {
   // Class fields (optional, but helps keep track of references)
   container = null;

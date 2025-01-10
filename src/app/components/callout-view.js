@@ -5,7 +5,7 @@ export class CalloutView extends ViewStream {
   constructor(props = {}) {
     props.tagName = "section";
     props.id = "callout-holder";
-    props.channels = ['CHANNEL_THREEJS'];
+    props.channels = ["CHANNEL_THREEJS"];
     super(props);
   }
 
@@ -51,6 +51,4 @@ export class CalloutView extends ViewStream {
     let data = this.getCalloutData(angleName);
     this.appendView(new CalloutViewItem({ data }));
   }
-
-
 }

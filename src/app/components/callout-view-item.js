@@ -14,12 +14,11 @@ export class CalloutViewItem extends ViewStream {
                       </ul>
                     </div>
                     `;
-    props.channels = ['CHANNEL_THREEJS'];
+    props.channels = ["CHANNEL_THREEJS"];
     super(props);
   }
 
   addActionListeners() {
     return [["CHANNEL_THREEJS_ANGLE_CHANGE_EVENT", "disposeViewStream"]];
   }
-
 }

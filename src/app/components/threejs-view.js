@@ -6,7 +6,7 @@ export class ThreejsView extends ViewStream {
   constructor(props = {}) {
     props.id = "threejs";
     props.traits = ThreejsTrait;
-    props.channels = ['CHANNEL_THREEJS'];
+    props.channels = ["CHANNEL_THREEJS"];
     props.animateScooter = true;
     super(props);
   }
