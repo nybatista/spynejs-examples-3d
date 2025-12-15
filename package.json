@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Spyne Starter App",
   "main": "index.js",
-  "type" : "module",
+  "type": "module",
   "scripts": {
     "start": "webpack-dev-server --open",
     "build": "webpack --mode production --env build",
@@ -15,7 +15,7 @@
   "author": "Frank Batista",
   "license": "MIT",
   "dependencies": {
-    "spyne": "^0.20.4",
+    "spyne": "^0.20.19",
     "three": "^0.171.0"
   },
   "devDependencies": {
@@ -52,7 +52,5 @@
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.0"
-
-
   }
 }
