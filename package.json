@@ -49,7 +49,7 @@
     "spyne-cli": "^0.6.2",
     "spyne-plugin-console": "^0.5.2",
     "style-loader": "^4.0.0",
-    "webpack": "^5.97.1",
+    "webpack": "^5.105.0",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.0"
   }
