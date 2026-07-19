@@ -1,6 +1,5 @@
 // External dependencies:
 import { SpyneTrait, SpyneAppProperties } from "spyne";
-import { defaultTo, prop } from "ramda";
 
 // Three.js core and extra modules:
 import * as THREE from "three";
@@ -25,21 +24,18 @@ export class ThreejsTraits extends SpyneTrait {
   }
 
   threejs$OnLoad() {
-    // If you'd like to detect whether FBXLoader is available:
-    const start3d = () => {
-      // Ramda usage remains as in the original code
-      const threeTest = defaultTo({});
-      const isLoaded =
-        prop("FBXLoader", threeTest({ FBXLoader })) !== undefined;
+    // FBXLoader is a static import — it is always available by the time
+    // this module executes, so initialize directly (the previous setTimeout
+    // polling loop only added an artificial 100ms boot delay)
+    this.threejs$Initialize();
+  }
 
-      if (isLoaded) {
-        this.threejs$Initialize();
-      } else {
-        setTimeout(start3d, 100);
-      }
-    };
-
-    setTimeout(start3d, 100);
+  // The container drives the render size; window is the fallback while the
+  // container has no CSS-driven dimensions of its own (canvas defines them)
+  threejs$GetStageSize() {
+    const width = this.container?.clientWidth || window.innerWidth;
+    const height = this.container?.clientHeight || window.innerHeight;
+    return { width, height };
   }
 
   threejs$Initialize() {
@@ -48,13 +44,10 @@ export class ThreejsTraits extends SpyneTrait {
       // Use a CSS selector for your container
       this.container = this.props.el;
 
+      const { width, height } = this.threejs$GetStageSize();
+
       // CAMERA
-      this.camera = new THREE.PerspectiveCamera(
-        45,
-        window.innerWidth / window.innerHeight,
-        1,
-        2000,
-      );
+      this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 2000);
       this.camera.position.set(100, 200, 300);
 
       this.clock = new THREE.Clock();
@@ -121,8 +114,10 @@ export class ThreejsTraits extends SpyneTrait {
 
       // RENDERER
       this.renderer = new THREE.WebGLRenderer({ antialias: true });
-      this.renderer.setPixelRatio(window.devicePixelRatio);
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      // cap the pixel ratio: beyond 2x the extra pixels cost real GPU time
+      // for imperceptible gains on high-density displays
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      this.renderer.setSize(width, height);
       this.renderer.shadowMap.enabled = true;
       this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       this.container.appendChild(this.renderer.domElement);
@@ -138,41 +133,49 @@ export class ThreejsTraits extends SpyneTrait {
       if (this.props?.animateScooter === true) {
         requestAnimationFrame(animate);
       } else {
-        // e.g. we can pass the azimuth angle to some handler
+        // the chain exits here — release the guard so the next START event
+        // can begin a fresh loop, and pass the resting azimuth angle on
+        this.props.isAnimating = false;
         this.threejs$OnFrameUpdate?.(this.controls?.getAzimuthalAngle());
       }
 
-      // console.log("ANIMATE IS ",this.mixer);
       const delta = this.clock.getDelta();
       if (this.mixer) this.mixer.update(delta);
 
       this.renderer?.render(this.scene, this.camera);
     };
 
+    // Single-chain guard: animate() schedules its own next frame, so calling
+    // it while a chain is live stacks a second concurrent loop — every START
+    // event (mousedown, wheel tick, resize) would multiply the render work
+    const startLoop = () => {
+      if (this.props.isAnimating === true) return;
+      this.props.isAnimating = true;
+      animate();
+    };
+
     // Keep track of it, if needed in other parts of your code
     this.props.animateFn = animate;
+    this.props.startAnimationLoop = startLoop;
 
     // INIT & ANIMATE
     init();
-    animate();
-
-    // Extra init call if desired
-    const initAnim = () => animate();
-    requestAnimationFrame(initAnim);
+    startLoop();
   }
 
-  // Example helper: adjusts camera & renderer on window resize
-  threejs$onWindowResize(e) {
-    const {innerWidth, innerHeight} = e.payload;
-    console.log("THIS IS ", this.camera, this.renderer, this);
-
+  // Example helper: adjusts camera & renderer on window resize.
+  // Renders ONE frame rather than starting the animation loop — a resize on
+  // a static scene should not leave a 60fps loop running indefinitely
+  threejs$onWindowResize() {
     if (!this.camera || !this.renderer) return;
 
-    this.camera.aspect = innerWidth / innerHeight;
+    const { width, height } = this.threejs$GetStageSize();
+
+    this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
 
-    this.renderer.setSize(innerWidth, innerHeight);
-    this.threejs$OnStartAnimation();
+    this.renderer.setSize(width, height);
+    this.renderer.render(this.scene, this.camera);
   }
 
   threejs$OnFrameUpdate(controlRads) {
@@ -185,7 +188,7 @@ export class ThreejsTraits extends SpyneTrait {
   }
   threejs$OnStartAnimation() {
     this.props.animateScooter = true;
-    this.props.animateFn();
+    this.props.startAnimationLoop();
   }
 
   threejs$OnEndAnimation() {

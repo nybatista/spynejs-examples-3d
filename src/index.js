@@ -11,7 +11,7 @@ const config = {
       listenForScroll: true,
       listenForWheel: true,
       debounceMSTimeForResize: 24,
-      debounceMSTimeForScroll: 100,
+      debounceMSTimeForScroll: 24,
     },
   },
 };

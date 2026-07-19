@@ -1,4 +1,10 @@
 import { SpyneTrait, ChannelPayloadFilter } from "spyne";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  merge,
+  share} from "rxjs";
 
 export class ThreejsChannelTraits extends SpyneTrait {
   constructor(context) {
@@ -6,21 +12,16 @@ export class ThreejsChannelTraits extends SpyneTrait {
     super(context, traitPrefix);
   }
 
-  static threejsChannel$GetThreejsAction(str) {
-    const hash = {
-      CHANNEL_UI_MOUSEDOWN_EVENT: "CHANNEL_THREEJS_START_ANIMATION_EVENT",
-      CHANNEL_UI_MOUSEUP_EVENT: "CHANNEL_THREEJS_END_ANIMATION_EVENT",
-      CHANNEL_UI_TOUCHSTART_EVENT: "CHANNEL_THREEJS_START_ANIMATION_EVENT",
-      CHANNEL_UI_TOUCHEND_EVENT: "CHANNEL_THREEJS_END_ANIMATION_EVENT",
-      CHANNEL_WINDOW_WHEEL_EVENT: "CHANNEL_THREEJS_START_ANIMATION_EVENT",
-    };
-
-    return hash[str];
-  }
 
   static threejsChannel$OnMouseEvent(e) {
-    let { action } = e.clone();
-    action = this.threejsChannel$GetThreejsAction(action);
+    const startThreeJsAnim = /(START|DOWN)/.test(e.action);
+    this.threejsChannel$SendChannelPayload(startThreeJsAnim);
+  }
+
+  static threejsChannel$SendChannelPayload(startThreeJsAnim = true){
+    const action = startThreeJsAnim ?
+        "CHANNEL_THREEJS_START_ANIMATION_EVENT" :
+        "CHANNEL_THREEJS_END_ANIMATION_EVENT";
 
     this.sendChannelPayload(action, {});
   }
@@ -40,9 +41,30 @@ export class ThreejsChannelTraits extends SpyneTrait {
 
     ui$.subscribe(this.threejsChannel$OnMouseEvent.bind(this));
 
-    this.getChannel(
-      "CHANNEL_WINDOW",
-      new ChannelPayloadFilter({ action: "CHANNEL_WINDOW_WHEEL_EVENT" }),
-    ).subscribe(this.threejsChannel$OnMouseEvent.bind(this));
+    // Wheel events have no natural release gesture, so wheel activity is
+    // derived as a boolean STATE stream: every wheel event maps to true,
+    // 400ms of wheel quiet maps to false, and distinctUntilChanged emits
+    // only the transitions — one true per burst, one false per quiet.
+    // The stream's value is the argument SendChannelPayload expects, so
+    // the subscriber is the sender itself. share() keeps a single channel
+    // subscription feeding both branches of the merge.
+    const wheel$ = this.getChannel(
+        "CHANNEL_WINDOW",
+        new ChannelPayloadFilter({
+          action: "CHANNEL_WINDOW_WHEEL_EVENT",
+        }),
+    ).pipe(share());
+
+    const wheelActivity$ = merge(
+        wheel$.pipe(map(() => true)),
+        wheel$.pipe(
+            debounceTime(400),
+            map(() => false),
+        ),
+    ).pipe(distinctUntilChanged());
+
+    wheelActivity$.subscribe(
+        this.threejsChannel$SendChannelPayload.bind(this),
+    );
   }
 }
