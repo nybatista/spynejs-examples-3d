@@ -21,8 +21,8 @@ new AppView().appendToDom(document.body);
 SpyneApp.registerChannel(new ChannelThreejs());
 
 // Conditionally load additional dev tools
-if (process.env.NODE_ENV === 'development') {
-  import('./dev-tools.js');
+if (process.env.NODE_ENV === "development") {
+  import("./dev-tools.js");
 }
 
 //"Vespa 50 Special" (https://skfb.ly/6Zx6S) by danilo2222255 is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).a
