@@ -1,5 +1,5 @@
 // External dependencies:
-import { SpyneTrait } from "spyne";
+import { SpyneTrait, SpyneAppProperties } from "spyne";
 import { defaultTo, prop } from "ramda";
 
 // Three.js core and extra modules:
@@ -7,9 +7,9 @@ import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-const vespaScooterURL = IMG_PATH + "models/vespa_50_final_00.fbx";
+const vespaScooterFile = "models/vespa_50_final_00.fbx";
 
-export class ThreejsTrait extends SpyneTrait {
+export class ThreejsTraits extends SpyneTrait {
   // Class fields (optional, but helps keep track of references)
   container = null;
   camera = null;
@@ -20,6 +20,8 @@ export class ThreejsTrait extends SpyneTrait {
   controls = null;
 
   constructor(context) {
+    console.log("config in graits ", SpyneAppProperties.config);
+
     super(context, "threejs$");
   }
 
@@ -97,6 +99,8 @@ export class ThreejsTrait extends SpyneTrait {
       const loader = new FBXLoader();
       // If you imported directly with `import vespaScooterURL from 'imgs/v-scooter.fbx';`
       // you could just do: loader.load(vespaScooterURL, ...)
+      const imgPath = SpyneAppProperties.config?.IMG_PATH ?? "";
+      const vespaScooterURL = `${imgPath}${vespaScooterFile}`;
 
       loader.load(vespaScooterURL, (object) => {
         this.mixer = new THREE.AnimationMixer(object);
@@ -142,7 +146,7 @@ export class ThreejsTrait extends SpyneTrait {
         requestAnimationFrame(animate);
       } else {
         // e.g. we can pass the azimuth angle to some handler
-        this.onFrameUpdate?.(this.controls?.getAzimuthalAngle());
+        this.threejs$OnFrameUpdate?.(this.controls?.getAzimuthalAngle());
       }
 
       // console.log("ANIMATE IS ",this.mixer);
@@ -172,5 +176,22 @@ export class ThreejsTrait extends SpyneTrait {
     this.camera.updateProjectionMatrix();
 
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  threejs$OnFrameUpdate(controlRads) {
+    let angle = this.props.angleUtils.checkAngle(controlRads);
+    if (angle !== null) {
+      let action = "CHANNEL_THREEJS_ANGLE_CHANGE_EVENT";
+      //SEND INFO TO CHANNEL THREEEJS
+      this.sendInfoToChannel("CHANNEL_THREEJS", angle, action);
+    }
+  }
+  threejs$OnStartAnimation() {
+    this.props.animateScooter = true;
+    this.props.animateFn();
+  }
+
+  threejs$OnEndAnimation() {
+    this.props.animateScooter = false;
   }
 }

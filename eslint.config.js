@@ -1,18 +1,18 @@
-import js from '@eslint/js';
-import prettierPlugin from 'eslint-plugin-prettier';
-import mochaPlugin from 'eslint-plugin-mocha';
-import globals from 'globals';
+import js from "@eslint/js";
+import prettierPlugin from "eslint-plugin-prettier";
+import mochaPlugin from "eslint-plugin-mocha";
+import globals from "globals";
 
 export default [
   {
-    ignores: ['node_modules/', 'dist/'],
+    ignores: ["node_modules/", "dist/"],
   },
   {
-    files: ['**/*.js'],
+    files: ["**/*.js"],
 
     languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
+      ecmaVersion: "latest",
+      sourceType: "module",
       globals: {
         // typical browser + Node + Mocha globals
         ...globals.browser,

@@ -1,53 +1,15 @@
-import { Channel, ChannelPayloadFilter } from "spyne";
+import { Channel } from "spyne";
+import { ThreejsChannelTraits } from "traits/threejs-channel-traits.js";
 
 export class ChannelThreejs extends Channel {
   constructor(name, props = {}) {
     name = "CHANNEL_THREEJS";
+    props.traits = [ThreejsChannelTraits];
     super(name, props);
   }
 
-  getThreejsAction(str) {
-    const hash = {
-      CHANNEL_UI_MOUSEDOWN_EVENT: "CHANNEL_THREEJS_START_ANIMATION_EVENT",
-      CHANNEL_UI_MOUSEUP_EVENT: "CHANNEL_THREEJS_END_ANIMATION_EVENT",
-      CHANNEL_UI_TOUCHSTART_EVENT: "CHANNEL_THREEJS_START_ANIMATION_EVENT",
-      CHANNEL_UI_TOUCHEND_EVENT: "CHANNEL_THREEJS_END_ANIMATION_EVENT",
-      CHANNEL_WINDOW_WHEEL_EVENT: "CHANNEL_THREEJS_START_ANIMATION_EVENT",
-    };
-
-    return hash[str];
-  }
-
-  onMouseEvent(e) {
-    let { action } = e.clone();
-    action = this.getThreejsAction(action);
-
-    this.sendChannelPayload(action, {});
-  }
-
-  addUIChannel() {
-    const arrActions = [
-      "CHANNEL_UI_MOUSEDOWN_EVENT",
-      "CHANNEL_UI_MOUSEUP_EVENT",
-      "CHANNEL_UI_TOUCHSTART_EVENT",
-      "CHANNEL_UI_TOUCHEND_EVENT",
-    ];
-    const pred = (str) => arrActions.indexOf(str) >= 0;
-    const uiPayloadFilter = new ChannelPayloadFilter("#threejs", {
-      action: pred,
-    });
-    const ui$ = this.getChannel("CHANNEL_UI", uiPayloadFilter);
-
-    ui$.subscribe(this.onMouseEvent.bind(this));
-
-    this.getChannel(
-      "CHANNEL_WINDOW",
-      new ChannelPayloadFilter({ action: "CHANNEL_WINDOW_WHEEL_EVENT" }),
-    ).subscribe(this.onMouseEvent.bind(this));
-  }
-
   onRegistered() {
-    this.addUIChannel();
+    this.threejsChannel$AddUIChannel();
   }
 
   addRegisteredActions() {
@@ -59,7 +21,6 @@ export class ChannelThreejs extends Channel {
   }
 
   onViewStreamInfo(vsPayload) {
-    console.log("PAYLOAD IS ", vsPayload);
     let { action, payload } = vsPayload.clone();
     this.sendChannelPayload(action, payload);
   }

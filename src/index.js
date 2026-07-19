@@ -17,7 +17,7 @@ const config = {
 };
 
 SpyneApp.init(config);
-new AppView();
+new AppView().appendToDom(document.body);
 
 SpyneApp.registerChannel(new ChannelThreejs());
 

@@ -1,21 +1,13 @@
-import { ViewStream } from "spyne";
-import { CalloutViewItem } from "./callout-view-item.js";
-import { CalloutTraits } from 'traits/callout-traits.js';
+import { SpyneTrait } from 'spyne';
+import {CalloutViewItem} from 'components/callout-view-item.js';
 
-export class CalloutView extends ViewStream {
-  constructor(props = {}) {
-    props.tagName = "section";
-    props.id = "callout-holder";
-    props.traits = [CalloutTraits];
-    props.channels = ["CHANNEL_THREEJS"];
-    super(props);
+export class CalloutTraits extends SpyneTrait {
+  constructor(context) {
+    let traitPrefix = 'callout$';
+    super(context, traitPrefix);
   }
 
-  addActionListeners() {
-    return [["CHANNEL_THREEJS_ANGLE_CHANGE_EVENT", "callout$OnAngleChangeEvent"]];
-  }
-
-  getTitle(str) {
+  callout$GetTitle(str) {
     const titleHash = {
       left: "LEFT PROFILE",
       front: "FRONT VIEW",
@@ -25,7 +17,7 @@ export class CalloutView extends ViewStream {
     return titleHash[str];
   }
 
-  getListItems(str) {
+  callout$GetListItems(str) {
     const itemsHash = {
       left: ["Halley", "Euler", "d'Alembert", "Clairaut", "Lagrange"],
       front: ["Category", "Anti-roll bar", "Axle", "Axle track", "Beam axle"],
@@ -41,16 +33,17 @@ export class CalloutView extends ViewStream {
     return itemsHash[str];
   }
 
-  getCalloutData(str) {
-    let title = this.getTitle(str);
+  callout$GetCalloutData(str) {
+    let title = this.callout$GetTitle(str);
     let classStr = `details ${str}`;
-    let items = this.getListItems(str);
+    let items = this.callout$GetListItems(str);
     return { title, classStr, items };
   }
 
-  onAngleChangeEvent(e) {
+  callout$OnAngleChangeEvent(e) {
     let { angleName } = e.clone();
-    let data = this.getCalloutData(angleName);
+    let data = this.callout$GetCalloutData(angleName);
     this.appendView(new CalloutViewItem({ data }));
   }
+
 }

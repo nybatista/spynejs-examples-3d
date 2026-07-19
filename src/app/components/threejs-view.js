@@ -1,27 +1,20 @@
 import { ViewStream } from "spyne";
-import { ThreejsTrait } from "traits/threejs-trait.js";
-import { AngleUtils } from "./angle-utils.js";
+import { ThreejsTraits } from "traits/threejs-traits.js";
+import { AngleUtils } from "traits/utils/angle-utils.js";
 
 export class ThreejsView extends ViewStream {
   constructor(props = {}) {
     props.id = "threejs";
-    props.traits = ThreejsTrait;
+    props.traits = ThreejsTraits;
     props.channels = ["CHANNEL_THREEJS"];
     props.animateScooter = true;
     super(props);
   }
-  onFrameUpdate(controlRads) {
-    let angle = this.props.angleUtils.checkAngle(controlRads);
-    if (angle !== null) {
-      let action = "CHANNEL_THREEJS_ANGLE_CHANGE_EVENT";
-      //SEND INFO TO CHANNEL THREEEJS
-      this.sendInfoToChannel("CHANNEL_THREEJS", angle, action);
-    }
-  }
+
   addActionListeners() {
     return [
-      ["CHANNEL_THREEJS_START_ANIMATION_EVENT", "onStartAnimation"],
-      ["CHANNEL_THREEJS_END_ANIMATION_EVENT", "onEndAnimation"],
+      ["CHANNEL_THREEJS_START_ANIMATION_EVENT", "threejs$OnStartAnimation"],
+      ["CHANNEL_THREEJS_END_ANIMATION_EVENT", "threejs$OnEndAnimation"],
     ];
   }
 
@@ -32,13 +25,6 @@ export class ThreejsView extends ViewStream {
       ["div", "touchstart"],
       ["div", "touchend"],
     ];
-  }
-  onStartAnimation() {
-    this.props.animateScooter = true;
-    this.props.animateFn();
-  }
-  onEndAnimation() {
-    this.props.animateScooter = false;
   }
 
   onRendered() {
