@@ -1,19 +1,10 @@
 import { ViewStream } from "spyne";
-
+import CalloutViewTmpl from "./templates/callout-view-item.tmpl.html";
 export class CalloutViewItem extends ViewStream {
   constructor(props = {}) {
     props.class = props.data.classStr;
     props.tagName = "article";
-    props.template = `<div class="content">
-                      <header class="icon {{classStr}}"></header>
-                      <h2>{{title}}</h2>
-                      <ul>
-                        {{#items}}
-                        <li>{{.*}}</li>
-                        {{/items}}
-                      </ul>
-                    </div>
-                    `;
+    props.template = CalloutViewTmpl;
     props.channels = ["CHANNEL_THREEJS"];
     super(props);
   }

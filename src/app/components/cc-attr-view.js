@@ -1,21 +1,9 @@
 import { ViewStream } from "spyne";
-
+import CreativeCommonsTmpl from "./templates/creative-commonts.tmpl.html";
 export class CcAttrView extends ViewStream {
   constructor(props = {}) {
     props.id = "cc-attr";
-    props.template = `<p>
-                        Model:
-                        <a href="https://skfb.ly/6Zx6S" target="_blank" rel="noopener"
-                          >Vespa 50 Special</a
-                        >, by danilo2222255,
-                        <a
-                          href="http://creativecommons.org/licenses/by/4.0/"
-                          target="_blank"
-                          rel="noopener"
-                          >CC Attribution</a
-                        >
-                      </p>
-                      `;
+    props.template = CreativeCommonsTmpl;
     super(props);
   }
 

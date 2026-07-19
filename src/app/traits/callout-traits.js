@@ -1,9 +1,9 @@
-import { SpyneTrait } from 'spyne';
-import {CalloutViewItem} from 'components/callout-view-item.js';
+import { SpyneTrait } from "spyne";
+import { CalloutViewItem } from "components/callout-view-item.js";
 
 export class CalloutTraits extends SpyneTrait {
   constructor(context) {
-    let traitPrefix = 'callout$';
+    let traitPrefix = "callout$";
     super(context, traitPrefix);
   }
 
@@ -45,5 +45,4 @@ export class CalloutTraits extends SpyneTrait {
     let data = this.callout$GetCalloutData(angleName);
     this.appendView(new CalloutViewItem({ data }));
   }
-
 }

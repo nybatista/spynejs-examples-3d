@@ -1,11 +1,11 @@
-import { SpyneTrait } from 'spyne';
-import {CreativeCommonsDomEl} from 'components/creative-commons-dom-el.js';
-import {CalloutView} from 'components/callout-view.js';
-import {ThreejsView} from 'components/threejs-view.js';
+import { SpyneTrait } from "spyne";
+import { CreativeCommonsDomEl } from "components/creative-commons-dom-el.js";
+import { CalloutView } from "components/callout-view.js";
+import { ThreejsView } from "components/threejs-view.js";
 
 export class AppTraits extends SpyneTrait {
   constructor(context) {
-    let traitPrefix = 'app$';
+    let traitPrefix = "app$";
     super(context, traitPrefix);
   }
 

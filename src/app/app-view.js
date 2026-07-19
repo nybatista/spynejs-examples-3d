@@ -1,5 +1,5 @@
 import { ViewStream } from "spyne";
-import { AppTraits } from 'traits/app-traits.js';
+import { AppTraits } from "traits/app-traits.js";
 
 export class AppView extends ViewStream {
   constructor(props = {}) {
@@ -8,7 +8,7 @@ export class AppView extends ViewStream {
     props.id = "app";
     super(props);
   }
-  
+
   onRendered() {
     this.app$AddThreejsView();
   }
