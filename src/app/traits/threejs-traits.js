@@ -20,9 +20,8 @@ export class ThreejsTraits extends SpyneTrait {
   controls = null;
 
   constructor(context) {
-    console.log("config in graits ", SpyneAppProperties.config);
-
-    super(context, "threejs$");
+    let traitPrefix = "threejs$";
+    super(context, traitPrefix);
   }
 
   threejs$OnLoad() {
@@ -47,7 +46,7 @@ export class ThreejsTraits extends SpyneTrait {
     // We wrap in an `init` function to organize setup code
     const init = () => {
       // Use a CSS selector for your container
-      this.container = document.querySelector("#threejs");
+      this.container = this.props.el;
 
       // CAMERA
       this.camera = new THREE.PerspectiveCamera(
@@ -132,12 +131,6 @@ export class ThreejsTraits extends SpyneTrait {
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
       this.controls.target.set(0, 100, 0);
       this.controls.update();
-
-      window.addEventListener(
-        "resize",
-        this.threejs$onWindowResize.bind(this),
-        false,
-      );
     };
 
     // The animate function can reference `this` now that we store objects as class fields
@@ -169,13 +162,17 @@ export class ThreejsTraits extends SpyneTrait {
   }
 
   // Example helper: adjusts camera & renderer on window resize
-  threejs$onWindowResize() {
+  threejs$onWindowResize(e) {
+    const {innerWidth, innerHeight} = e.payload;
+    console.log("THIS IS ", this.camera, this.renderer, this);
+
     if (!this.camera || !this.renderer) return;
 
-    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.aspect = innerWidth / innerHeight;
     this.camera.updateProjectionMatrix();
 
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(innerWidth, innerHeight);
+    this.threejs$OnStartAnimation();
   }
 
   threejs$OnFrameUpdate(controlRads) {
